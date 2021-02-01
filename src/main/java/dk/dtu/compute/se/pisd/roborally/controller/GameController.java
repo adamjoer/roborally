@@ -45,9 +45,6 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
 
         // If the space isn't free, do not move player
         if (space.getPlayer() != null) return;
@@ -57,6 +54,9 @@ public class GameController {
 
         // Get next player
         Player nextPlayer = board.getPlayer((board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber());
+
+        // Increment counter
+        board.incrementCounter();
 
         // Set current player to next player
         board.setCurrentPlayer(nextPlayer);
