@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -44,7 +43,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
 
         // If the space isn't free, do not move player
         if (space.getPlayer() != null) return;
@@ -55,14 +54,14 @@ public class GameController {
         // Get next player
         Player nextPlayer = board.getPlayer((board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber());
 
+        // Set the players space to the new space
+        currentPlayer.setSpace(space);
+
         // Increment counter
         board.incrementCounter();
 
         // Set current player to next player
         board.setCurrentPlayer(nextPlayer);
-
-        // Set the players space to the new space
-        currentPlayer.setSpace(space);
     }
 
     /**
