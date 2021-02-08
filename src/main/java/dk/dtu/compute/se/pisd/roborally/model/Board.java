@@ -157,10 +157,12 @@ public class Board extends Subject {
 
     public void setCounter(int counter) {
         this.counter = counter;
+        notifyChange();
     }
 
     public void incrementCounter() {
         counter++;
+        notifyChange();
     }
 
     public boolean isStepMode() {
