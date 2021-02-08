@@ -33,7 +33,6 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class Board extends Subject {
 
@@ -65,7 +64,7 @@ public class Board extends Subject {
         this.height = height;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
+            for (int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
             }
@@ -189,7 +188,7 @@ public class Board extends Subject {
      * (no walls or obstacles in either of the involved spaces); otherwise,
      * null will be returned.
      *
-     * @param space the space for which the neighbour should be computed
+     * @param space   the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
@@ -215,10 +214,14 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // This is actually a view aspect, but for making the first task easy for
+        // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
-        return "Player = " + getCurrentPlayer().getName() + ", counter = " + counter;
+        // XXX: V2 changed the status so that it shows the phase, the player and the step
+        return "Phase: " + getPhase().name() +
+               ", Player: " + getCurrentPlayer().getName() +
+               ", Step: " + getStep() +
+               ", Counter: " + getCounter();
     }
 }
