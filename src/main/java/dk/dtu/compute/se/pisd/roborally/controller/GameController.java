@@ -205,24 +205,48 @@ public class GameController {
         }
     }
 
-    // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
 
+        // Get the current space
+        Space currentSpace = board.getSpace(player.getSpace().x, player.getSpace().y);
+
+        // Get the space the player will move to based on heading
+        Space nextSpace = board.getNeighbour(currentSpace, player.getHeading());
+
+        // Move only if there is no player on that space
+        // FIXME: Fix this shit
+        if (nextSpace.getPlayer() == null) {
+            player.setSpace(nextSpace);
+        }
     }
 
-    // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
 
+        // Get the current space
+        Space currentSpace = board.getSpace(player.getSpace().x, player.getSpace().y);
+
+        // Get the space the player will move to based on heading
+        Space nextSpace = board.getNeighbour(currentSpace, player.getHeading());
+
+        nextSpace = board.getNeighbour(nextSpace, player.getHeading());
+
+        // Move only if there is no player on that space
+        // FIXME: Fix this shit
+        if (nextSpace.getPlayer() == null) {
+            player.setSpace(nextSpace);
+        }
     }
 
-    // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
 
+        // Change the players heading
+        player.setHeading(player.getHeading().next());
     }
 
-    // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
 
+        // Change the players heading
+        player.setHeading(player.getHeading().prev());
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
