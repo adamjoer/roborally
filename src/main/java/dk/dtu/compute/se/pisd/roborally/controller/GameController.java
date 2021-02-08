@@ -207,14 +207,11 @@ public class GameController {
 
     public void moveForward(@NotNull Player player) {
 
-        // Get the current space
-        Space currentSpace = board.getSpace(player.getSpace().x, player.getSpace().y);
-
-        // Get the space the player will move to based on heading
-        Space nextSpace = board.getNeighbour(currentSpace, player.getHeading());
+        // Get the space the player will move to based on current space and the player's heading
+        Space nextSpace = board.getNeighbour(player.getSpace(), player.getHeading());
 
         // Move only if there is no player on that space
-        // FIXME: Fix this shit
+        // FIXME: The moving player should push any other players already on the space
         if (nextSpace.getPlayer() == null) {
             player.setSpace(nextSpace);
         }
@@ -222,16 +219,14 @@ public class GameController {
 
     public void fastForward(@NotNull Player player) {
 
-        // Get the current space
-        Space currentSpace = board.getSpace(player.getSpace().x, player.getSpace().y);
+        // Get the space the player will move to based on current space and the player's heading
+        Space nextSpace = board.getNeighbour(player.getSpace(), player.getHeading());
 
-        // Get the space the player will move to based on heading
-        Space nextSpace = board.getNeighbour(currentSpace, player.getHeading());
-
+        // The player needs to move two spaces forward, so get the neighbor of the neighbor
         nextSpace = board.getNeighbour(nextSpace, player.getHeading());
 
         // Move only if there is no player on that space
-        // FIXME: Fix this shit
+        // FIXME: The moving player should push any other players already on the space
         if (nextSpace.getPlayer() == null) {
             player.setSpace(nextSpace);
         }
