@@ -210,6 +210,35 @@ public class GameController {
         }
     }
 
+    public void executeCommandOptionAndContinue(@NotNull Command option) {
+
+        // Change phase to ACTIVATION
+        board.setPhase(Phase.ACTIVATION);
+
+        // Execute the option that was chosen
+        executeCommand(board.getCurrentPlayer(), option);
+
+        // FIXME: Duplicate code
+        int nextPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer()) + 1,
+                step = board.getStep();
+
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+        } else {
+            step++;
+            if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
+        }
+
+        // Go on to the next command
+        continuePrograms();
+    }
+
     public void moveForward(@NotNull Player player) {
 
         // Get the space the player will move to based on current space and the player's heading
