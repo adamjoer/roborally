@@ -26,10 +26,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * ...
+ * Enumerator with the possible commands.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public enum Command {
 
@@ -54,15 +53,36 @@ public enum Command {
 
     final private List<Command> options;
 
+    /**
+     * Makes a new command that gets executed in a command card.
+     * <p>
+     * If there are several options, the player
+     * wil have to choose between one of them in GUI.
+     *
+     * @param displayName The name that will be displayed in GUI for this specific command card
+     * @param options     Zero or more commands that the player can choose between when this command is executed
+     */
     Command(String displayName, Command... options) {
         this.displayName = displayName;
         this.options = Collections.unmodifiableList(Arrays.asList(options));
     }
 
+    /**
+     * Method for checking if this command is interactive,
+     * i.e. the player needs to choose between options
+     *
+     * @return True if the player needs to choose between options, false otherwise
+     */
     public boolean isInteractive() {
         return !options.isEmpty();
     }
 
+    /**
+     * Method for getting all the commands bound to this command.
+     * Used for getting all the options if the command is interactive.
+     *
+     * @return A list of all the options bound to this command
+     */
     public List<Command> getOptions() {
         return options;
     }

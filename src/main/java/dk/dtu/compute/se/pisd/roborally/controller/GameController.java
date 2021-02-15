@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -44,7 +43,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
 
         // If the space isn't free, do not move player
         if (space.getPlayer() != null) return;
@@ -210,6 +209,15 @@ public class GameController {
         }
     }
 
+    /**
+     * Method for executing a command in a interactive command card,
+     * and continuing executing the next command cards.
+     * <p>
+     * The method changes the phase from PLAYER_INTERACTION to ACTIVATION,
+     * and goes on to the next command card, so that the player can't choose an option again.
+     *
+     * @param option The command that will be executed when a specific option is chosen
+     */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
 
         // Change phase to ACTIVATION
@@ -235,7 +243,7 @@ public class GameController {
             }
         }
 
-        // Go on to the next command
+        // Go on to the next command card
         continuePrograms();
     }
 
