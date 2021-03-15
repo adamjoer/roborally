@@ -70,7 +70,7 @@ class GameControllerTest {
 
         Heading heading = current.getHeading();
 
-        gameController.fastForward(current);
+        gameController.fastForward(current, 2);
 
         switch (heading) {
             case NORTH -> y = (y + 6) % TEST_HEIGHT;

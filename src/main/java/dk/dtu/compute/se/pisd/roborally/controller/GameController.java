@@ -202,7 +202,16 @@ public class GameController {
                     this.turnLeft(player);
                     break;
                 case FAST_FORWARD:
-                    this.fastForward(player);
+                    this.fastForward(player, 2);
+                    break;
+                case TRIPLE_FORWARD:
+                    this.fastForward(player, 3);
+                    break;
+                case REVERSE:
+                    this.reverse(player);
+                    break;
+                case BACKWARDS:
+                    this.backwards(player);
                     break;
                 default:
                     // DO NOTHING (for now)
@@ -304,10 +313,24 @@ public class GameController {
         player.setSpace(space);
     }
 
-    public void fastForward(@NotNull Player player) {
+    public void fastForward(@NotNull Player player, int count) {
 
+        // TODO: Maybe throw an exception if count is less than or equal to zero
+
+        for (int i = 0; i < count; i++) {
+            moveForward(player);
+        }
+    }
+
+    public void backwards(@NotNull Player player) {
+        reverse(player);
         moveForward(player);
-        moveForward(player);
+        reverse(player);
+    }
+
+    public void reverse(@NotNull Player player) {
+        turnRight(player);
+        turnRight(player);
     }
 
     public void turnRight(@NotNull Player player) {
