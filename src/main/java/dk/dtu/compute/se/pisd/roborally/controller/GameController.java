@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -249,29 +250,64 @@ public class GameController {
 
     public void moveForward(@NotNull Player player) {
 
-        // Get the space the player will move to based on current space and the player's heading
-        Space nextSpace = board.getNeighbour(player.getSpace(), player.getHeading());
+        // TODO: is this if-statement necessary?
+//        if (player.board == board) {
 
-        // Move only if there is no player on that space
-        // FIXME: The moving player should push any other players already on the space
-        if (nextSpace.getPlayer() == null) {
-            player.setSpace(nextSpace);
+        // Calculate the target space based on the players heading
+        Heading heading = player.getHeading();
+        Space target = board.getNeighbour(player.getSpace(), heading);
+
+        // If it is possible, ie. getNeighbor didn't return null, move the player to the space
+        if (target != null) {
+
+            // moveToSpace pushes any other players already on the target space
+            // in the direction that the current player is moving
+            // If the move is impossible, ie. any pushed player
+            // will hit a wall, ImpossibleMoveException is thrown
+            try {
+                moveToSpace(player, target, heading);
+
+            } catch (ImpossibleMoveException e) {
+                // we don't do anything here for now;
+                // we just catch the exception so that
+                // we do no pass it on to the caller
+                // (which would be very bad style).
+            }
         }
+//        }
+    }
+
+    private void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+
+        // Get any potential players on target space
+        Player other = space.getPlayer();
+
+        // If there is a player, the player needs to be moved
+        if (other != null) {
+
+            // Calculate the space the other player needs to be pushed to
+            Space target = board.getNeighbour(space, heading);
+
+            // If it is possible to move to the target space, recursively push any other potential players
+            if (target != null) {
+
+                // XXX Note that there might be additional problems
+                // with infinite recursion here!
+                moveToSpace(other, target, heading);
+
+            } else { // If the target space is null, it is impossible to move to; throw exception
+                throw new ImpossibleMoveException(player, space, heading);
+            }
+        }
+
+        // Move the player to the new space
+        player.setSpace(space);
     }
 
     public void fastForward(@NotNull Player player) {
 
-        // Get the space the player will move to based on current space and the player's heading
-        Space nextSpace = board.getNeighbour(player.getSpace(), player.getHeading());
-
-        // The player needs to move two spaces forward, so get the neighbor of the neighbor
-        nextSpace = board.getNeighbour(nextSpace, player.getHeading());
-
-        // Move only if there is no player on that space
-        // FIXME: The moving player should push any other players already on the space
-        if (nextSpace.getPlayer() == null) {
-            player.setSpace(nextSpace);
-        }
+        moveForward(player);
+        moveForward(player);
     }
 
     public void turnRight(@NotNull Player player) {
