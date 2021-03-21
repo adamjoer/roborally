@@ -286,7 +286,7 @@ public class GameController {
 //        }
     }
 
-    private void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
 
         // Get any potential players on target space
         Player other = space.getPlayer();

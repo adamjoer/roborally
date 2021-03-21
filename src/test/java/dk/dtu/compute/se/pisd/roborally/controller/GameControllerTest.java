@@ -48,6 +48,30 @@ class GameControllerTest {
     }
 
     @Test
+    void pushRobot() {
+        Board board = gameController.board;
+
+        Player player1 = board.getPlayer(0);
+        Player player2 = board.getPlayer(1);
+        gameController.turnRight(player2);
+        Heading expectedHeading = player2.getHeading();
+
+        Space targetSpace = player2.getSpace();
+        try {
+            gameController.moveToSpace(player1, targetSpace, player1.getHeading());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Space neighbor = board.getNeighbour(player1.getSpace(), player1.getHeading());
+        Space player2Space = player2.getSpace();
+
+        // player2 should retain their heading even when pushed.
+        Assertions.assertEquals(player2.getHeading(), expectedHeading);
+        // player2 should be pushed to the Space just in front of player1
+        Assertions.assertEquals(neighbor, player2Space);
+    }
+
+    @Test
     void moveForward() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
