@@ -357,6 +357,22 @@ public class GameController {
         }
     }
 
+
+    class ImpossibleMoveException extends Exception {
+
+        private Player player;
+        private Space space;
+        private Heading heading;
+
+        public ImpossibleMoveException(Player player, Space space, Heading heading) {
+            super("Move impossible");
+            this.player = player;
+            this.space = space;
+            this.heading = heading;
+        }
+    }
+
+
     /**
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.
@@ -365,5 +381,4 @@ public class GameController {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
     }
-
 }
