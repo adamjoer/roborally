@@ -19,48 +19,25 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.roborally.dal;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+
+import java.util.List;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject {
+public interface IRepository {
 
-    final public Player player;
+    boolean createGameInDB(Board game);
 
-    private CommandCard card;
+    boolean updateGameInDB(Board game);
 
-    private boolean visible;
+    Board loadGameFromDB(int id);
 
-    public CommandCardField(Player player) {
-        this.player = player;
-        this.card = null;
-        this.visible = true;
-    }
+    List<GameInDB> getGames();
 
-    public CommandCard getCard() {
-        return card;
-    }
-
-    public void setCard(CommandCard card) {
-        if (card != this.card) {
-            this.card = card;
-            notifyChange();
-        }
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        if (visible != this.visible) {
-            this.visible = visible;
-            notifyChange();
-        }
-    }
 }

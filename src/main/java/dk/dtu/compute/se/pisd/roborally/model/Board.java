@@ -92,7 +92,7 @@ public class Board extends Subject {
 
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
-            y >= 0 && y < height) {
+                y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -222,7 +222,7 @@ public class Board extends Subject {
                 x = (x + 1) % width;
                 break;
         }
-        Heading reverse = Heading.values()[(heading.ordinal() + 2)% Heading.values().length];
+        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
         Space result = getSpace(x, y);
         if (result != null) {
             if (result.getWalls().contains(reverse)) {
@@ -239,8 +239,8 @@ public class Board extends Subject {
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() +
-               ", Player: " + getCurrentPlayer().getName() +
-               ", Step: " + getStep() +
-               ", Counter: " + getCounter();
+                ", Player: " + getCurrentPlayer().getName() +
+                ", Step: " + getStep() +
+                ", Counter: " + getCounter();
     }
 }
