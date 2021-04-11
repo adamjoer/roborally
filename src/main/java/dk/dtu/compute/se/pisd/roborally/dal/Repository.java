@@ -82,12 +82,14 @@ class Repository implements IRepository {
                 ps.setInt(3, game.getPhase().ordinal());
                 ps.setInt(4, game.getStep());
 
-                // If you have a foreign key constraint for current players,
-                // the check would need to be temporarily disabled, since
-                // MySQL does not have a per transaction validation, but
-                // validates on a per row basis.
-                // Statement statement = connection.createStatement();
-                // statement.execute("SET foreign_key_checks = 0");
+                /*
+                 * If you have a foreign key constraint for current players,
+                 * the check would need to be temporarily disabled, since
+                 * MySQL does not have a per transaction validation, but
+                 * validates on a per row basis.
+                 * Statement statement = connection.createStatement();
+                 * statement.execute("SET foreign_key_checks = 0");
+                 */
 
                 int affectedRows = ps.executeUpdate();
                 ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -101,7 +103,7 @@ class Repository implements IRepository {
                 // statement.close();
 
                 createPlayersInDB(game);
-				/* TOODO this method needs to be implemented first
+				/* TODO this method needs to be implemented first
 				createCardFieldsInDB(game);
 				 */
 
@@ -138,7 +140,7 @@ class Repository implements IRepository {
                 }
             }
         } else {
-            System.err.println("Game cannot be created in DB, since it has a game id already!");
+            System.out.println("Game ID already exists, updating database entry instead.");
         }
         return false;
     }
@@ -166,7 +168,7 @@ class Repository implements IRepository {
             rs.close();
 
             updatePlayersInDB(game);
-			/* TOODO this method needs to be implemented first
+			/* TODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
 			*/
 
@@ -233,7 +235,7 @@ class Repository implements IRepository {
                 return null;
             }
 
-			/* TOODO this method needs to be implemented first
+			/* TODO this method needs to be implemented first
 			loadCardFieldsFromDB(game);
 			*/
 

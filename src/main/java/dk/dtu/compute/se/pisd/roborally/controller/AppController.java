@@ -25,9 +25,12 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
-
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
+import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -36,6 +39,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +55,9 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
 
     final private RoboRally roboRally;
+
+    final private RepositoryAccess repositoryAccess = new RepositoryAccess();
+    final private IRepository iRepository = repositoryAccess.getRepository();
 
     private GameController gameController;
 
@@ -93,13 +100,37 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // XXX needs to be implemented eventually
+        if (!iRepository.createGameInDB(gameController.board)) {
+            iRepository.updateGameInDB(gameController.board);
+        }
     }
 
     public void loadGame() {
-        // XXX needs to be implememted eventually
-        // for now, we just create a new game
-        if (gameController == null) {
+        List<GameInDB> games = iRepository.getGames();
+        int savedGames = games.size();
+        if (savedGames > 0) {
+            List<String> gameStrings = new ArrayList<String>();
+            for (GameInDB gameInDB : games) {
+                gameStrings.add(gameInDB.toString());
+            }
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameStrings.get(savedGames - 1), gameStrings);
+            dialog.setTitle("Load game from database");
+            dialog.setHeaderText("Select the game to load:");
+            Optional<String> result = dialog.showAndWait();
+
+            String resultString = result.get();
+            int gameID = Integer.parseInt(resultString.split(":")[0]);
+
+            Board board = iRepository.loadGameFromDB(gameID);
+
+            gameController = new GameController(board);
+
+            // TODO: Restarts the game in the Programming Phase.........
+            gameController.startProgrammingPhase();
+
+            roboRally.createBoardView(gameController);
+        } else {
             newGame();
         }
     }
