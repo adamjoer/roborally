@@ -357,6 +357,7 @@ public class GameController {
         }
     }
 
+
     /**
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.
@@ -365,5 +366,4 @@ public class GameController {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
     }
-
 }

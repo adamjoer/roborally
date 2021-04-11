@@ -36,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class PlayerView extends Tab implements ViewObserver {
 
@@ -91,13 +90,13 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.executePrograms());
+        executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.executeStep());
+        stepButton.setOnAction(e -> gameController.executeStep());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -138,7 +137,7 @@ public class PlayerView extends Tab implements ViewObserver {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING ) {
+                    if (player.board.getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
                         if (i < player.board.getStep()) {
@@ -206,7 +205,7 @@ public class PlayerView extends Tab implements ViewObserver {
                     for (Command command : card.command.getOptions()) {
 
                         Button optionButton = new Button(command.displayName);
-                        optionButton.setOnAction( e -> gameController.executeCommandOptionAndContinue(command));
+                        optionButton.setOnAction(e -> gameController.executeCommandOptionAndContinue(command));
                         optionButton.setDisable(false);
                         playerInteractionPanel.getChildren().add(optionButton);
                     }

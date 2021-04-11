@@ -19,48 +19,25 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject {
+public abstract class FieldAction {
 
-    final public Player player;
+    /**
+     * Executes the field action for a given space. In order to be able to do
+     * that the GameController associated with the game is passed to this method.
+     *
+     * @param gameController the gameController of the respective game
+     * @param space          the space this action should be executed for
+     * @return whether the action was successfully executed
+     */
+    public abstract boolean doAction(GameController gameController, Space space);
 
-    private CommandCard card;
-
-    private boolean visible;
-
-    public CommandCardField(Player player) {
-        this.player = player;
-        this.card = null;
-        this.visible = true;
-    }
-
-    public CommandCard getCard() {
-        return card;
-    }
-
-    public void setCard(CommandCard card) {
-        if (card != this.card) {
-            this.card = card;
-            notifyChange();
-        }
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        if (visible != this.visible) {
-            this.visible = visible;
-            notifyChange();
-        }
-    }
 }

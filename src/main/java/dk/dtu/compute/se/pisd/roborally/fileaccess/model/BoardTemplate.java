@@ -19,48 +19,22 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject {
+public class BoardTemplate {
 
-    final public Player player;
+    public int width;
+    public int height;
 
-    private CommandCard card;
+    public List<SpaceTemplate> spaces = new ArrayList<>();
 
-    private boolean visible;
-
-    public CommandCardField(Player player) {
-        this.player = player;
-        this.card = null;
-        this.visible = true;
-    }
-
-    public CommandCard getCard() {
-        return card;
-    }
-
-    public void setCard(CommandCard card) {
-        if (card != this.card) {
-            this.card = card;
-            notifyChange();
-        }
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        if (visible != this.visible) {
-            this.visible = visible;
-            notifyChange();
-        }
-    }
 }
