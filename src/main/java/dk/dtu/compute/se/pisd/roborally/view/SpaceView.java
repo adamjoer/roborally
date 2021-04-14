@@ -33,8 +33,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * ...
  *
@@ -66,14 +64,6 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
-        List<Heading> walls = space.getWalls();
-
-        for (Heading heading : walls) {
-            createWall(heading);
-        }
-
-        // updatePlayer();
-
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
@@ -98,9 +88,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    private void createWall(Heading heading) {
-        // Canvas has been attempted to no avail.
-        /*
+    private void drawWall(Heading heading) {
         Pane pane = new Pane();
         Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
         rectangle.setFill(Color.TRANSPARENT);
@@ -122,31 +110,15 @@ public class SpaceView extends StackPane implements ViewObserver {
         line.setStrokeWidth(5);
         pane.getChildren().add(line);
         this.getChildren().add(pane);
-         */
-
-        double leftUp = 5;
-        double right = SPACE_WIDTH - 5;
-        double down = SPACE_HEIGHT - 5;
-
-        Polygon line = null;
-        switch (heading) {
-            case WEST -> line = new Polygon(0.0, 0.0, leftUp, 0.0, leftUp, SPACE_HEIGHT, 0.0, SPACE_HEIGHT);
-            case SOUTH -> line = new Polygon(0.0, down, SPACE_WIDTH, down, SPACE_WIDTH, SPACE_HEIGHT, 0.0, SPACE_HEIGHT);
-            case NORTH -> line = new Polygon(0.0, 0.0, SPACE_WIDTH, 0.0, SPACE_WIDTH, leftUp, 0.0, leftUp);
-            case EAST -> line = new Polygon(right, 0.0, SPACE_WIDTH, 0.0, SPACE_WIDTH, SPACE_HEIGHT, right, SPACE_HEIGHT);
-        }
-        line.setFill(Color.RED);
-        this.getChildren().add(line);
-        String headName = heading.name();
-        System.out.println("placed wall on " + headName + " side of space: (" + space.x + "," + space.y + ")");
-        System.out.println(this.getChildren().toString());
-
     }
 
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             updatePlayer();
+
+            for (Heading heading : space.getWalls())
+                drawWall(heading);
         }
     }
 
