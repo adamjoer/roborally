@@ -21,10 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,20 +32,40 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConveyorBelt extends FieldAction {
 
-    private Heading heading;
+    private final Heading heading;
+    private final boolean doubleMove;
+
+    public ConveyorBelt(Heading heading, boolean isDouble) {
+        this.heading = heading;
+        this.doubleMove = isDouble;
+    }
+
+    @Override
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+
+        Board board = gameController.board;
+        Space target = board.getNeighbour(space, heading);
+
+        try {
+            gameController.moveToSpace(space.getPlayer(), target, heading);
+
+            if (doubleMove) {
+                target = board.getNeighbour(space, heading);
+                gameController.moveToSpace(space.getPlayer(), target, heading);
+
+
+            }
+        } catch (ImpossibleMoveException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     public Heading getHeading() {
         return heading;
     }
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
+    public boolean isDoubleMove() {
+        return doubleMove;
     }
-
-    @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
-        return false;
-    }
-
 }
