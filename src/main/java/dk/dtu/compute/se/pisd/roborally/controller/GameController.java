@@ -165,13 +165,13 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+                    activateBoardElements();
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
-                        activateBoardElements();
                         startProgrammingPhase();
                     }
                 }
@@ -253,6 +253,7 @@ public class GameController {
         if (nextPlayerNumber < board.getPlayersNumber()) {
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         } else {
+            activateBoardElements();
             step++;
             if (step < Player.NO_REGISTERS) {
                 makeProgramFieldsVisible(step);
