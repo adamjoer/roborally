@@ -22,8 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    private int checkPointsCounter;
+    private final int checkPointCount;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -74,21 +72,6 @@ public class Board extends Subject {
             }
         }
         this.stepMode = false;
-
-
-        checkPointsCounter = 0;
-        for (Space[] row : spaces) {
-            for (Space space : row ) {
-                for (FieldAction action : space.getActions()) {
-                    if (action instanceof CheckPoint)
-                        checkPointsCounter++;
-                }
-            }
-        }
-    }
-
-    public Board(int width, int height) {
-        this(width, height, "defaultboard");
     }
 
     public Integer getGameId() {
@@ -259,8 +242,8 @@ public class Board extends Subject {
                 ", Counter: " + getCounter();
     }
 
-    public int getCheckPointsCounter() {
-        return checkPointsCounter;
+    public int getCheckPointCount() {
+        return checkPointCount;
     }
 
     public List<Player> getPlayers() {

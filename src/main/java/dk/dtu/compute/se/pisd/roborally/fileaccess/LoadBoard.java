@@ -53,7 +53,7 @@ public class LoadBoard {
         InputStream inputStream = classLoader.getResourceAsStream(BOARDS_FOLDER + "/" + boardName + "." + JSON_EXT);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
-            return new Board(8, 8);
+            return new Board(8, 8, DEFAULT_BOARD, 0);
         }
 
         // In simple cases, we can create a Gson object with new Gson():
@@ -69,7 +69,7 @@ public class LoadBoard {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
-            result = new Board(template.width, template.height);
+            result = new Board(template.width, template.height, boardName, template.checkPointCount);
             for (SpaceTemplate spaceTemplate : template.spaces) {
                 Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
                 if (space != null) {
@@ -158,5 +158,4 @@ public class LoadBoard {
             }
         }
     }
-
 }
