@@ -146,4 +146,8 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    public int getCurrentCheckPoint(){
+        return currentCheckPoint;
+    }
+
 }
