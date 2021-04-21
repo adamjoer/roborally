@@ -117,7 +117,7 @@ public class AppController implements Observer {
         List<GameInDB> games = iRepository.getGames();
         int savedGames = games.size();
         if (savedGames > 0) {
-            List<String> gameStrings = new ArrayList<String>();
+            List<String> gameStrings = new ArrayList<>();
             for (GameInDB gameInDB : games) {
                 gameStrings.add(gameInDB.toString());
             }
@@ -126,6 +126,8 @@ public class AppController implements Observer {
             dialog.setTitle("Load game from database");
             dialog.setHeaderText("Select the game to load:");
             Optional<String> result = dialog.showAndWait();
+            if (result.isEmpty())
+                return;
 
             String resultString = result.get();
             int gameID = Integer.parseInt(resultString.split(":")[0]);
