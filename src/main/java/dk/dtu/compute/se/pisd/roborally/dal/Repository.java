@@ -79,11 +79,11 @@ class Repository implements IRepository {
                 // TODO: the name should eventually set by the user
                 //       for the game and should be then used
                 //       game.getName();
-                ps.setString(1, "Date: " + new Date()); // instead of name
+                ps.setString(1, game.boardName + " " + new Date()); // instead of name
                 ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
                 ps.setInt(3, game.getPhase().ordinal());
                 ps.setInt(4, game.getStep());
-                ps.setString(5,game.boardName);
+                ps.setString(5, game.boardName);
 
                 /*
                  * If you have a foreign key constraint for current players,
