@@ -47,6 +47,10 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+
+    // The last checkpoint which the player has landed on
+    private int currentCheckPoint = -1;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -98,7 +102,7 @@ public class Player extends Subject {
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
+            (space == null || space.board == this.board)) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);
@@ -121,6 +125,16 @@ public class Player extends Subject {
             if (space != null) {
                 space.playerChanged();
             }
+        }
+    }
+
+    public void checkPointHandler(int checkPoint) {
+        if (currentCheckPoint == checkPoint - 1) {
+            System.out.printf("Player %s reached checkpoint number %d\n", name, checkPoint);
+            currentCheckPoint++;
+
+        } else {
+            System.out.printf("Player %s has already reached checkpoint number %d\n", name ,checkPoint);
         }
     }
 

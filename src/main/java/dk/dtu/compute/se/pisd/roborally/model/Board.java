@@ -60,6 +60,8 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private int checkPointsCounter;
+
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -255,5 +257,13 @@ public class Board extends Subject {
                 ", Player: " + getCurrentPlayer().getName() +
                 ", Step: " + getStep() +
                 ", Counter: " + getCounter();
+    }
+
+    public int getCheckPointsCounter() {
+        return checkPointsCounter;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }
