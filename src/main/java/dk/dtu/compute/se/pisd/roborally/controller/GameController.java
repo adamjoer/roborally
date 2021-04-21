@@ -219,6 +219,15 @@ public class GameController {
         }
     }
 
+    private void activateBoardElements() {
+        for (Player player : board.getPlayers()) {
+
+            for (FieldAction action : player.getSpace().getActions()) {
+                action.doAction(this, player.getSpace());
+            }
+        }
+    }
+
     /**
      * Method for executing a command in a interactive command card,
      * and continuing executing the next command cards.
