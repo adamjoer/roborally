@@ -227,7 +227,7 @@ public class GameController {
             for (FieldAction action : player.getSpace().getActions()) {
                 action.doAction(this, player.getSpace());
 
-                if (player.getCurrentCheckPoint() + 1 == checkPoints){
+                if (player.getCurrentCheckPoint() == checkPoints){
                     // TODO: end game
                 }
             }

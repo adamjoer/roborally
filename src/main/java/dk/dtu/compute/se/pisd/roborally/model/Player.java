@@ -49,7 +49,7 @@ public class Player extends Subject {
 
 
     // The last checkpoint which the player has landed on
-    private int currentCheckPoint = -1;
+    private int currentCheckPoint = 0;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
