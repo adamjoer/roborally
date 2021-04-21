@@ -221,7 +221,8 @@ public class GameController {
     }
 
     private void activateBoardElements() {
-        int checkPoints = board.getCheckPointsCounter();
+        int checkPoints = board.getCheckPointCount();
+
         for (Player player : board.getPlayers()) {
 
             for (FieldAction action : player.getSpace().getActions()) {
