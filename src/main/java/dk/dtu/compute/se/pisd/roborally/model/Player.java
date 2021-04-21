@@ -130,12 +130,17 @@ public class Player extends Subject {
 
     public void checkPointHandler(int checkPoint) {
         if (currentCheckPoint == checkPoint - 1) {
-            System.out.printf("Player %s reached checkpoint number %d\n", name, checkPoint);
+            System.out.printf("%s reached checkpoint number %d\n", name, checkPoint);
             currentCheckPoint++;
-
-        } else {
-            System.out.printf("Player %s has already reached checkpoint number %d\n", name ,checkPoint);
         }
+
+    }
+
+    public boolean isUsingAllRegisters() {
+        for (CommandCardField field : program)
+            if (field.getCard() == null)
+                return false;
+        return true;
     }
 
     public CommandCardField getProgramField(int i) {

@@ -97,6 +97,10 @@ public class GameController {
 
     // XXX: V2
     public void finishProgrammingPhase() {
+        for (Player player : board.getPlayers())
+            if (!player.isUsingAllRegisters())
+                return;
+
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
@@ -224,7 +228,6 @@ public class GameController {
         int checkPoints = board.getCheckPointCount();
 
         for (Player player : board.getPlayers()) {
-
             for (FieldAction action : player.getSpace().getActions()) {
                 action.doAction(this, player.getSpace());
             }
