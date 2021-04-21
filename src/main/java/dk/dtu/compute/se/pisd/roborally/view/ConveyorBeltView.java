@@ -12,11 +12,11 @@ public class ConveyorBeltView {
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
-        graphicsContext.setStroke(Color.BLACK);
+        graphicsContext.setStroke(Color.RED);
 
         ConveyorBelt conveyorBelt = (ConveyorBelt) action;
 
-        graphicsContext.strokeText(conveyorBelt.getHeading() + " " + conveyorBelt.isDoubleMove(), 0,20);
+        graphicsContext.strokeText("ConveyorBelt\n" + conveyorBelt.getHeading() + " " + conveyorBelt.isDoubleMove(), 0,20);
 
         spaceView.getChildren().add(canvas);
     }
