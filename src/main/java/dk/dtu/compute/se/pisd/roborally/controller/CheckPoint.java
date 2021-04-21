@@ -15,4 +15,8 @@ public class CheckPoint extends FieldAction {
         space.getPlayer().checkPointHandler(checkPointNumber);
         return true;
     }
+
+    public int getCheckPointNumber() {
+        return checkPointNumber;
+    }
 }
