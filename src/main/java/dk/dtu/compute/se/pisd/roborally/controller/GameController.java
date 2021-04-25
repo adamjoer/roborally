@@ -233,6 +233,11 @@ public class GameController {
             }
 
             if (player.getCurrentCheckPoint() == checkPoints){
+                System.out.println(player.getName() + " won the game");
+
+                System.exit(0);
+
+                break;
                 // TODO: end game
             }
         }
