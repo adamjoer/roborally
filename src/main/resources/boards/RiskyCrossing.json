@@ -15,7 +15,8 @@
 				}
 			],
 			"x": 2,
-			"y": 0
+			"y": 0,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -29,7 +30,8 @@
 				}
 			],
 			"x": 4,
-			"y": 0
+			"y": 0,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -42,8 +44,9 @@
 					}
 				}
 			],
-			"x": 9,
-			"y": 0
+			"x": 10,
+			"y": 0,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -56,8 +59,16 @@
 
 				}
 			],
-			"x": 10,
-			"y": 0
+			"x": 11,
+			"y": 0,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 1,
+			"y": 1,
+			"isStartPoint": true
 		},
 		{
 			"walls": [],
@@ -71,7 +82,8 @@
 				}
 			],
 			"x": 4,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -85,7 +97,8 @@
 				}
 			],
 			"x": 6,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -99,7 +112,8 @@
 				}
 			],
 			"x": 7,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -113,7 +127,8 @@
 				}
 			],
 			"x": 8,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -127,7 +142,8 @@
 				}
 			],
 			"x": 10,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -141,7 +157,8 @@
 				}
 			],
 			"x": 11,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -155,7 +172,8 @@
 				}
 			],
 			"x": 12,
-			"y": 1
+			"y": 1,
+			"isStartPoint": false
 		},
 		{
 			"walls": [
@@ -163,7 +181,8 @@
 			],
 			"actions": [],
 			"x": 1,
-			"y": 2
+			"y": 2,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -177,7 +196,8 @@
 				}
 			],
 			"x": 3,
-			"y": 2
+			"y": 2,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -191,7 +211,8 @@
 				}
 			],
 			"x": 4,
-			"y": 2
+			"y": 2,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -205,7 +226,8 @@
 				}
 			],
 			"x": 6,
-			"y": 2
+			"y": 2,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -219,7 +241,15 @@
 				}
 			],
 			"x": 8,
-			"y": 2
+			"y": 2,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 0,
+			"y": 3,
+			"isStartPoint": true
 		},
 		{
 			"walls": [],
@@ -233,7 +263,8 @@
 				}
 			],
 			"x": 5,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -247,7 +278,8 @@
 				}
 			],
 			"x": 6,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -261,7 +293,8 @@
 				}
 			],
 			"x": 8,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -275,7 +308,8 @@
 				}
 			],
 			"x": 9,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -289,7 +323,8 @@
 				}
 			],
 			"x": 10,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -303,7 +338,15 @@
 				}
 			],
 			"x": 11,
-			"y": 3
+			"y": 3,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 1,
+			"y": 4,
+			"isStartPoint": true
 		},
 		{
 			"walls": [
@@ -311,7 +354,8 @@
 			],
 			"actions": [],
 			"x": 2,
-			"y": 4
+			"y": 4,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -325,7 +369,8 @@
 				}
 			],
 			"x": 4,
-			"y": 4
+			"y": 4,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -339,7 +384,8 @@
 				}
 			],
 			"x": 5,
-			"y": 4
+			"y": 4,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -353,7 +399,15 @@
 				}
 			],
 			"x": 11,
-			"y": 4
+			"y": 4,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 1,
+			"y": 5,
+			"isStartPoint": true
 		},
 		{
 			"walls": [
@@ -361,7 +415,8 @@
 			],
 			"actions": [],
 			"x": 2,
-			"y": 5
+			"y": 5,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -375,7 +430,8 @@
 				}
 			],
 			"x": 4,
-			"y": 5
+			"y": 5,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -389,7 +445,8 @@
 				}
 			],
 			"x": 10,
-			"y": 5
+			"y": 5,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -403,7 +460,15 @@
 				}
 			],
 			"x": 11,
-			"y": 5
+			"y": 5,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 0,
+			"y": 1,
+			"isStartPoint": true
 		},
 		{
 			"walls": [],
@@ -417,7 +482,8 @@
 				}
 			],
 			"x": 4,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -431,7 +497,8 @@
 				}
 			],
 			"x": 5,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -445,7 +512,8 @@
 				}
 			],
 			"x": 5,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -459,7 +527,8 @@
 				}
 			],
 			"x": 6,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -473,7 +542,8 @@
 				}
 			],
 			"x": 7,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -487,7 +557,8 @@
 				}
 			],
 			"x": 9,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -501,7 +572,8 @@
 				}
 			],
 			"x": 10,
-			"y": 6
+			"y": 6,
+			"isStartPoint": false
 		},
 		{
 			"walls": [
@@ -510,7 +582,8 @@
 			"actions": [
 			],
 			"x": 1,
-			"y": 7
+			"y": 7,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -524,7 +597,8 @@
 				}
 			],
 			"x": 8,
-			"y": 7
+			"y": 7,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -538,7 +612,8 @@
 				}
 			],
 			"x": 9,
-			"y": 7
+			"y": 7,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -552,7 +627,8 @@
 				}
 			],
 			"x": 11,
-			"y": 7
+			"y": 7,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -566,7 +642,15 @@
 				}
 			],
 			"x": 12,
-			"y": 7
+			"y": 7,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [],
+			"x": 1,
+			"y": 8,
+			"isStartPoint": true
 		},
 		{
 			"walls": [],
@@ -580,7 +664,8 @@
 				}
 			],
 			"x": 3,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -594,7 +679,8 @@
 				}
 			],
 			"x": 4,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -608,7 +694,8 @@
 				}
 			],
 			"x": 5,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -622,7 +709,8 @@
 				}
 			],
 			"x": 7,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -636,7 +724,8 @@
 				}
 			],
 			"x": 8,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -650,7 +739,8 @@
 				}
 			],
 			"x": 9,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -664,7 +754,8 @@
 				}
 			],
 			"x": 11,
-			"y": 8
+			"y": 8,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -678,7 +769,8 @@
 				}
 			],
 			"x": 2,
-			"y": 9
+			"y": 9,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -692,7 +784,8 @@
 				}
 			],
 			"x": 5,
-			"y": 9
+			"y": 9,
+			"isStartPoint": false
 		},
 		{
 			"walls": [],
@@ -706,7 +799,8 @@
 				}
 			],
 			"x": 11,
-			"y": 9
+			"y": 9,
+			"isStartPoint": false
 		}
 	]
 }

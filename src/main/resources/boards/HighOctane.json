@@ -15,7 +15,8 @@
         }
       ],
       "x": 2,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -24,7 +25,8 @@
       "actions": [
       ],
       "x": 4,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -33,7 +35,8 @@
       "actions": [
       ],
       "x": 5,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -42,7 +45,8 @@
       "actions": [
       ],
       "x": 6,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -56,7 +60,8 @@
         }
       ],
       "x": 11,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -77,7 +82,8 @@
         }
       ],
       "x": 5,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -91,7 +97,8 @@
         }
       ],
       "x": 6,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -105,7 +112,8 @@
         }
       ],
       "x": 7,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -119,7 +127,8 @@
         }
       ],
       "x": 8,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -133,7 +142,8 @@
         }
       ],
       "x": 9,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -147,7 +157,8 @@
         }
       ],
       "x": 10,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -161,7 +172,8 @@
         }
       ],
       "x": 11,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -169,7 +181,8 @@
       ],
       "actions": [],
       "x": 1,
-      "y": 2
+      "y": 2,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -183,7 +196,8 @@
         }
       ],
       "x": 11,
-      "y": 2
+      "y": 2,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -204,7 +218,8 @@
         }
       ],
       "x": 11,
-      "y": 3
+      "y": 3,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -217,7 +232,8 @@
         }
       ],
       "x": 12,
-      "y": 3
+      "y": 3,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -233,7 +249,8 @@
       "actions": [
       ],
       "x": 2,
-      "y": 4
+      "y": 4,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -247,7 +264,8 @@
         }
       ],
       "x": 4,
-      "y": 4
+      "y": 4,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -261,7 +279,8 @@
         }
       ],
       "x": 11,
-      "y": 4
+      "y": 4,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -277,7 +296,8 @@
       "actions": [
       ],
       "x": 2,
-      "y": 5
+      "y": 5,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -291,7 +311,8 @@
         }
       ],
       "x": 4,
-      "y": 5
+      "y": 5,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -305,7 +326,8 @@
         }
       ],
       "x": 11,
-      "y": 5
+      "y": 5,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -326,7 +348,8 @@
         }
       ],
       "x": 4,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -339,7 +362,8 @@
         }
       ],
       "x": 5,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -348,7 +372,8 @@
       ],
       "actions": [],
       "x": 6,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -358,7 +383,8 @@
       "actions": [
       ],
       "x": 9,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -367,7 +393,8 @@
       "actions": [
       ],
       "x": 1,
-      "y": 7
+      "y": 7,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -381,7 +408,8 @@
         }
       ],
       "x": 4,
-      "y": 7
+      "y": 7,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -402,7 +430,8 @@
         }
       ],
       "x": 4,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -416,7 +445,8 @@
         }
       ],
       "x": 5,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -430,7 +460,8 @@
         }
       ],
       "x": 6,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -444,7 +475,8 @@
         }
       ],
       "x": 7,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -458,7 +490,8 @@
         }
       ],
       "x": 8,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -472,7 +505,8 @@
         }
       ],
       "x": 9,
-      "y": 8
+      "y": 8,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -486,7 +520,8 @@
         }
       ],
       "x": 2,
-      "y": 9
+      "y": 9,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -500,7 +535,8 @@
         }
       ],
       "x": 4,
-      "y": 9
+      "y": 9,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -509,7 +545,8 @@
       "actions": [
       ],
       "x": 9,
-      "y": 9
+      "y": 9,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -518,7 +555,8 @@
       "actions": [
       ],
       "x": 10,
-      "y": 9
+      "y": 9,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -527,7 +565,8 @@
       "actions": [
       ],
       "x": 11,
-      "y": 9
+      "y": 9,
+      "isStartPoint": false
     }
 
 
