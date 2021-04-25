@@ -71,7 +71,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -116,7 +115,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
-            updatePlayer();
+            this.getChildren().clear();
 
             for (FieldAction action : space.getActions()) {
                 if (action instanceof CheckPoint)
@@ -126,6 +125,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             for (Heading heading : space.getWalls())
                 drawWall(heading);
+            updatePlayer();
         }
     }
 }
