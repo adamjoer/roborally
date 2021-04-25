@@ -69,10 +69,16 @@ public class LoadBoard {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
+            Space[] startPoints = new Space[6];
+            int startPointCursor = 0;
+
             result = new Board(template.width, template.height, boardName, template.checkPointCount);
             for (SpaceTemplate spaceTemplate : template.spaces) {
                 Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
                 if (space != null) {
+                    if (spaceTemplate.isStartPoint) {
+                        startPoints[startPointCursor++] = space;
+                    }
                     space.getActions().addAll(spaceTemplate.actions);
                     space.getWalls().addAll(spaceTemplate.walls);
                 }

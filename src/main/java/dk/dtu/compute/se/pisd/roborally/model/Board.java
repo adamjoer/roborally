@@ -60,6 +60,8 @@ public class Board extends Subject {
 
     private final int checkPointCount;
 
+    private Space[] startPoints;
+
     public Board(int width, int height, @NotNull String boardName, int checkPointCount) {
         this.boardName = boardName;
         this.width = width;
