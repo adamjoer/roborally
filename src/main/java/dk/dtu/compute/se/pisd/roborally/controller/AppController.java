@@ -33,6 +33,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -91,12 +92,14 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = LoadBoard.loadBoard(boardResult.get());
+
+            Space[] startPoints = board.getStartPoints();
+
             gameController = new GameController(board);
-            int no = playersResult.get();
-            for (int i = 0; i < no; i++) {
+            for (int i = 0, n = playersResult.get(); i < n; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
                 board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
+                player.setSpace(startPoints[i]);
             }
 
             // XXX: V2

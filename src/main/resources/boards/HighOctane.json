@@ -60,13 +60,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 1,
-      "y": 1
+      "y": 1,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -190,13 +187,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 0,
-      "y": 3
+      "y": 3,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -227,13 +221,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 1,
-      "y": 4
+      "y": 4,
+      "isStartPoint": true
     },
     {
       "walls": [
@@ -274,13 +265,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 1,
-      "y": 5
+      "y": 5,
+      "isStartPoint": true
     },
     {
       "walls": [
@@ -321,13 +309,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 0,
-      "y": 6
+      "y": 6,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -400,13 +385,10 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.StartPoint"
-        }
-      ],
+      "actions": [],
       "x": 1,
-      "y": 8
+      "y": 8,
+      "isStartPoint": true
     },
     {
       "walls": [],

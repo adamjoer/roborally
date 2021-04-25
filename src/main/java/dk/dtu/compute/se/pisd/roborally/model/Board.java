@@ -250,4 +250,12 @@ public class Board extends Subject {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public Space[] getStartPoints() {
+        return startPoints;
+    }
+
+    public void setStartPoints(Space[] startPoints) {
+        this.startPoints = startPoints;
+    }
 }
