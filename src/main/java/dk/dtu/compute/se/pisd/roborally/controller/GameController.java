@@ -238,7 +238,7 @@ public class GameController {
                 System.exit(0);
 
                 break;
-                // TODO: end game
+                // FIXME: Implement a solution that actually ends the game properly, instead of this hack
             }
         }
     }
