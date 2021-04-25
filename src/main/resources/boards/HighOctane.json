@@ -212,7 +212,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
-            "heading": "EAST",
+            "heading": "NORTH",
             "doubleMove" : true
           }
         }
