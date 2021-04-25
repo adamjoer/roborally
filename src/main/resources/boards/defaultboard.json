@@ -15,7 +15,15 @@
         }
       ],
       "x": 0,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 2,
+      "y": 0,
+      "isStartPoint": true
     },
     {
       "walls": [
@@ -30,7 +38,8 @@
         }
       ],
       "x": 1,
-      "y": 0
+      "y": 0,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -45,7 +54,15 @@
         }
       ],
       "x": 1,
-      "y": 1
+      "y": 1,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 2,
+      "y": 1,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -58,7 +75,15 @@
         }
       ],
       "x": 1,
-      "y": 2
+      "y": 2,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 3,
+      "y": 2,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -71,7 +96,15 @@
         }
       ],
       "x": 1,
-      "y": 3
+      "y": 3,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 4,
+      "y": 3,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -84,7 +117,15 @@
         }
       ],
       "x": 1,
-      "y": 4
+      "y": 4,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 5,
+      "y": 4,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -97,7 +138,15 @@
         }
       ],
       "x": 1,
-      "y": 5
+      "y": 5,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 7,
+      "y": 6,
+      "isStartPoint": true
     },
     {
       "walls": [],
@@ -110,7 +159,8 @@
         }
       ],
       "x": 1,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -125,7 +175,8 @@
         }
       ],
       "x": 2,
-      "y": 2
+      "y": 2,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -140,7 +191,8 @@
         }
       ],
       "x": 3,
-      "y": 3
+      "y": 3,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -155,7 +207,8 @@
         }
       ],
       "x": 4,
-      "y": 4
+      "y": 4,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -170,7 +223,8 @@
         }
       ],
       "x": 5,
-      "y": 5
+      "y": 5,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -185,7 +239,8 @@
         }
       ],
       "x": 6,
-      "y": 6
+      "y": 6,
+      "isStartPoint": false
     },
     {
       "walls": [
@@ -200,7 +255,8 @@
         }
       ],
       "x": 7,
-      "y": 7
+      "y": 7,
+      "isStartPoint": false
     }
   ]
 }
