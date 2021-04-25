@@ -589,6 +589,21 @@
 			"walls": [],
 			"actions": [
 				{
+					"CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+					"INSTANCE": {
+						"heading": "SOUTH",
+						"doubleMove" : false
+					}
+				}
+			],
+			"x": 7,
+			"y": 7,
+			"isStartPoint": false
+		},
+		{
+			"walls": [],
+			"actions": [
+				{
 					"CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
 					"INSTANCE": {
 						"checkPointNumber": "1"
