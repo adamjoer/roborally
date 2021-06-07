@@ -63,6 +63,8 @@ public class Board extends Subject {
 
     private Space[] startPoints;
 
+    private Space rebootSpace;
+
     public Board(int width, int height, @NotNull String boardName, int checkPointCount) {
         this.boardName = boardName;
         this.width = width;
@@ -263,10 +265,10 @@ public class Board extends Subject {
     }
 
     public Space getRebootSpace() {
-        return RebootSpace;
+        return rebootSpace;
     }
 
     public void setRebootSpace(Space rebootSpace) {
-        RebootSpace = rebootSpace;
+        this.rebootSpace = rebootSpace;
     }
 }
