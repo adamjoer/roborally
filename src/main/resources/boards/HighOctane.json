@@ -19,6 +19,20 @@
       "isStartPoint": false
     },
     {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : true
+          }
+        }
+      ],
+      "x": 3,
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
       "walls": [
         "SOUTH"
       ],
@@ -60,6 +74,20 @@
         }
       ],
       "x": 11,
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : false
+          }
+        }
+      ],
+      "x": 12,
       "y": 0,
       "isStartPoint": false
     },
@@ -205,6 +233,40 @@
       "x": 0,
       "y": 3,
       "isStartPoint": true
+    },
+    {
+      "walls": [
+        "NORTH",
+        "WEST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : true
+          }
+        }
+      ],
+      "x": 6,
+      "y": 3,
+      "isStartPoint": false
+    },
+    {
+      "walls": [
+        "NORTH",
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : false
+          }
+        }
+      ],
+      "x": 9,
+      "y": 3,
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -370,7 +432,14 @@
         "WEST",
         "SOUTH"
       ],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : false
+          }
+        }
+      ],
       "x": 6,
       "y": 6,
       "isStartPoint": false
@@ -381,6 +450,12 @@
         "SOUTH"
       ],
       "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : true
+          }
+        }
       ],
       "x": 9,
       "y": 6,
@@ -527,6 +602,20 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : false
+          }
+        }
+      ],
+      "x": 3,
+      "y": 9,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
             "heading": "SOUTH",
@@ -567,9 +656,20 @@
       "x": 11,
       "y": 9,
       "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RotatingGear",
+          "INSTANCE": {
+            "clockwise" : true
+          }
+        }
+      ],
+      "x": 12,
+      "y": 9,
+      "isStartPoint": false
     }
-
-
-
   ]
 }
