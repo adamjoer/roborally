@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.RebootSpace;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -259,5 +260,13 @@ public class Board extends Subject {
 
     public void setStartPoints(Space[] startPoints) {
         this.startPoints = startPoints;
+    }
+
+    public Space getRebootSpace() {
+        return RebootSpace;
+    }
+
+    public void setRebootSpace(Space rebootSpace) {
+        RebootSpace = rebootSpace;
     }
 }
