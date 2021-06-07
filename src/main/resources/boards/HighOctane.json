@@ -66,6 +66,19 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RebootSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 7,
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
             "heading": "NORTH",
