@@ -22,9 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.*;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -122,6 +120,10 @@ public class SpaceView extends StackPane implements ViewObserver {
                     CheckPointView.drawCheckPoint(this, action);
                 else if (action instanceof ConveyorBelt)
                     ConveyorBeltView.drawConveyorBelt(this, action);
+                else if (action instanceof RotatingGear)
+                    RotatingGearView.drawRotatingGear(this, action);
+                else if (action instanceof RebootSpace)
+                    RebootSpaceView.drawRebootSpace(this, action);
             }
             for (Heading heading : space.getWalls())
                 drawWall(heading);

@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.controller.RebootSpace;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
@@ -72,6 +73,8 @@ public class LoadBoard {
             Space[] startPoints = new Space[6];
             int startPointCursor = 0;
 
+            Space rebootSpace = null;
+
             result = new Board(template.width, template.height, boardName, template.checkPointCount);
             for (SpaceTemplate spaceTemplate : template.spaces) {
                 Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
@@ -81,9 +84,22 @@ public class LoadBoard {
                     }
                     space.getActions().addAll(spaceTemplate.actions);
                     space.getWalls().addAll(spaceTemplate.walls);
+
+                    for (FieldAction action : space.getActions()){
+                        if (action instanceof RebootSpace){
+                            rebootSpace = space;
+                            break;
+                        }
+                    }
                 }
             }
             result.setStartPoints(startPoints);
+
+            if (rebootSpace == null){
+                result.setRebootSpace(startPoints[0]);
+            } else{
+                result.setRebootSpace(rebootSpace);
+            }
 
             reader.close();
             return result;
