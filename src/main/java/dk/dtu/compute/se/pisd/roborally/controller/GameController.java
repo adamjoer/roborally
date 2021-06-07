@@ -65,6 +65,38 @@ public class GameController {
         board.setCurrentPlayer(nextPlayer);
     }
 
+    public void moveToRebootSpace(Player player){
+
+        try {
+            moveToSpace(player, board.getRebootSpace(), player.getHeading());
+
+        } catch (ImpossibleMoveException e) {
+            int x, y;
+            Space space;
+            do {
+                x = (int) (Math.random() * board.width);
+                y = (int) (Math.random() * board.height);
+                space = board.getSpace(x, y);
+
+            } while (space.getPlayer() != null);
+
+            player.setSpace(space);
+        };
+
+        for (int j = 0; j < Player.NO_REGISTERS; j++) {
+            CommandCardField field = player.getProgramField(j);
+            field.setCard(null);
+            field.setVisible(false);
+        }
+        for (int j = 0; j < Player.NO_CARDS; j++) {
+            CommandCardField field = player.getCardField(j);
+            field.setCard(generateRandomCommandCard());
+            field.setVisible(true);
+        }
+
+
+    }
+
     // XXX: V2
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
@@ -238,7 +270,7 @@ public class GameController {
                 System.exit(0);
 
                 break;
-                // TODO: end game
+                // FIXME: Implement a solution that actually ends the game properly, instead of this hack
             }
         }
     }
@@ -391,4 +423,6 @@ public class GameController {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
     }
+
+
 }
