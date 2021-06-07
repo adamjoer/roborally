@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +62,14 @@ class Repository implements IRepository {
     private static final String PLAYER_POSITION_Y = "positionY";
 
     private static final String PLAYER_HEADING = "heading";
+
+    private static final String CARD_FIELD_COMMAND = "command";
+
+    private static final String CARD_FIELD_CARD_INDEX = "cardIndex";
+
+    private static final String CARD_FIELD_GAMEID = "gameID";
+
+    private static final String CARD_FIELD_PLAYERID = "playerID";
 
     private Connector connector;
 
@@ -344,7 +353,31 @@ class Repository implements IRepository {
     }
 
     private void createCardFieldsInDB(Board game) throws SQLException {
+        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        preparedStatement.setInt(1, game.getGameId());
 
+        ResultSet resultSet = preparedStatement.executeQuery();
+        for (int i = 0; i < game.getPlayersNumber(); i++) {
+            Player player = game.getPlayer(i);
+
+            List<Command> commands = Arrays.asList(Command.values());
+
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                Command command = player.getCardField(j).getCard().command;
+                int commandIndex = commands.indexOf(command);
+
+                resultSet.moveToInsertRow();
+
+                resultSet.updateInt(CARD_FIELD_COMMAND, commandIndex);
+                resultSet.updateInt(CARD_FIELD_CARD_INDEX, j);
+                resultSet.updateInt(CARD_FIELD_GAMEID, player.board.getGameId());
+                resultSet.updateInt(CARD_FIELD_PLAYERID, i);
+
+                resultSet.insertRow();
+            }
+        }
+
+        resultSet.close();
     }
 
     private void updateCardFieldsInDB(Board game) throws SQLException {

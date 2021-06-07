@@ -32,9 +32,11 @@ CREATE TABLE IF NOT EXISTS Player (
 
 CREATE TABLE IF NOT EXISTS CardField (
   command int NOT NULL,
+  cardIndex int NOT NULL,
   gameID int NOT NULL,
   playerID tinyint NOT NULL,
 
+  PRIMARY KEY (gameID, playerID, cardIndex),
   FOREIGN KEY (gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 
