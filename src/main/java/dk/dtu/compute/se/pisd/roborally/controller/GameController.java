@@ -65,7 +65,7 @@ public class GameController {
         board.setCurrentPlayer(nextPlayer);
     }
 
-    public void moveToRebootSpace(Player player){
+    public void moveToRebootSpace(Player player) {
 
         try {
             moveToSpace(player, board.getRebootSpace(), player.getHeading());
@@ -81,7 +81,7 @@ public class GameController {
             } while (space.getPlayer() != null);
 
             player.setSpace(space);
-        };
+        }
 
         for (int j = 0; j < Player.NO_REGISTERS; j++) {
             CommandCardField field = player.getProgramField(j);
@@ -93,8 +93,6 @@ public class GameController {
             field.setCard(generateRandomCommandCard());
             field.setVisible(true);
         }
-
-
     }
 
     // XXX: V2
@@ -264,7 +262,7 @@ public class GameController {
                 action.doAction(this, player.getSpace());
             }
 
-            if (player.getCurrentCheckPoint() == checkPoints){
+            if (player.getCurrentCheckPoint() == checkPoints) {
                 System.out.println(player.getName() + " won the game");
 
                 System.exit(0);
@@ -423,6 +421,4 @@ public class GameController {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
     }
-
-
 }

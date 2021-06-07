@@ -88,7 +88,8 @@ public class LoadBoard {
                     for (FieldAction action : space.getActions()){
                         if (action instanceof RebootSpace){
                             rebootSpace = space;
-                            break;                        }
+                            break;
+                        }
                     }
                 }
             }
@@ -96,8 +97,7 @@ public class LoadBoard {
 
             if (rebootSpace == null){
                 result.setRebootSpace(startPoints[0]);
-            }
-            else{
+            } else{
                 result.setRebootSpace(rebootSpace);
             }
 
