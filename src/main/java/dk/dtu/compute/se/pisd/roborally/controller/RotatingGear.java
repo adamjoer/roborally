@@ -14,12 +14,8 @@ public class RotatingGear extends FieldAction{
     @Override
     public boolean doAction(GameController gameController, Space space) {
         Heading currentHeading = space.getPlayer().getHeading();
-        Heading targetHeading = switch (currentHeading) {
-            case NORTH -> (clockwise) ? Heading.EAST : Heading.WEST;
-            case EAST -> (clockwise) ? Heading.SOUTH : Heading.NORTH;
-            case SOUTH -> (clockwise) ? Heading.WEST : Heading.EAST;
-            case WEST -> (clockwise) ? Heading.NORTH : Heading.SOUTH;
-        };
+
+        Heading targetHeading = (clockwise) ? currentHeading.next() : currentHeading.prev();
 
         space.getPlayer().setHeading(targetHeading);
         return true;
