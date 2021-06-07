@@ -106,9 +106,7 @@ class Repository implements IRepository {
                 // statement.close();
 
                 createPlayersInDB(game);
-				/* TODO this method needs to be implemented first
-				createCardFieldsInDB(game);
-				 */
+                createCardFieldsInDB(game);
 
                 // since current player is a foreign key, it can oly be
                 // inserted after the players are created, since MySQL does
@@ -171,9 +169,7 @@ class Repository implements IRepository {
             rs.close();
 
             updatePlayersInDB(game);
-			/* TODO this method needs to be implemented first
-			updateCardFieldsInDB(game);
-			*/
+            updateCardFieldsInDB(game);
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -239,9 +235,7 @@ class Repository implements IRepository {
                 return null;
             }
 
-			/* TODO this method needs to be implemented first
-			loadCardFieldsFromDB(game);
-			*/
+            loadCardFieldsFromDB(game);
 
             return game;
         } catch (SQLException e) {
@@ -349,6 +343,18 @@ class Repository implements IRepository {
         // TODO error handling/consistency check: check whether all players were updated
     }
 
+    private void createCardFieldsInDB(Board game) throws SQLException {
+
+    }
+
+    private void updateCardFieldsInDB(Board game) throws SQLException {
+
+    }
+
+    private void loadCardFieldsFromDB(Board game) throws SQLException {
+
+    }
+
     private static final String SQL_INSERT_GAME =
             "INSERT INTO Game(name, currentPlayer, phase, step, boardName) VALUES (?, ?, ?, ?, ?)";
 
@@ -429,6 +435,25 @@ class Repository implements IRepository {
             }
         }
         return select_players_asc_stmt;
+    }
+
+    private static final String SQL_SELECT_CARD_FIELDS = "SELECT * FROM CardField WHERE gameID = ?";
+
+    private PreparedStatement select_card_fields_stmt = null;
+
+    private PreparedStatement getSelectCardFieldsStatementU() {
+        if (select_card_fields_stmt == null) {
+            Connection connection = connector.getConnection();
+            try {
+                select_card_fields_stmt = connection.prepareStatement(
+                        SQL_SELECT_CARD_FIELDS,
+                        ResultSet.TYPE_FORWARD_ONLY,
+                        ResultSet.CONCUR_UPDATABLE);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return select_card_fields_stmt;
     }
 
     private static final String SQL_SELECT_GAMES =
