@@ -14,20 +14,28 @@ CREATE TABLE IF NOT EXISTS Game (
   PRIMARY KEY (gameID),
   FOREIGN KEY (gameID, currentPlayer) REFERENCES Player(gameID, playerID)
 );;
-  
+
 CREATE TABLE IF NOT EXISTS Player (
   gameID int NOT NULL,
   playerID tinyint NOT NULL,
 
   name varchar(255),
   colour varchar(31),
-  
+
   positionX int,
   positionY int,
   heading tinyint,
-  
+
   PRIMARY KEY (gameID, playerID),
   FOREIGN KEY (gameID) REFERENCES Game(gameID)
+);;
+
+CREATE TABLE IF NOT EXISTS CardField (
+  command int NOT NULL,
+  gameID int NOT NULL,
+  playerID tinyint NOT NULL,
+
+  FOREIGN KEY (gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 
 SET FOREIGN_KEY_CHECKS = 1;;
