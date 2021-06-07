@@ -31,12 +31,12 @@ public class RotatingGearView {
         // Draw larger shadow of the number.
         graphicsContext.setStroke(Color.RED);
         graphicsContext.setLineWidth(4.);
-        graphicsContext.strokeText("RotatingGear", 5, 43);
+        graphicsContext.strokeText("RotatingGear", 8, 43);
 
         // Draw the number over the shadow.
         graphicsContext.setStroke(Color.GREEN);
         graphicsContext.setLineWidth(2.);
-        graphicsContext.strokeText("RotatingGear", 5, 43);
+        graphicsContext.strokeText("RotatingGear", 8, 43);
 
         spaceView.getChildren().add(canvas);
     }
