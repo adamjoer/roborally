@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
@@ -38,6 +39,7 @@ public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
+    final public static int NO_PROGRAM_CARDS = 8;
 
     final public Board board;
 
@@ -147,6 +149,12 @@ public class Player extends Subject {
             if (field.getCard() == null)
                 return false;
         return true;
+    }
+
+    public void shuffleDeck(){
+        Collections.shuffle(discardPile);
+        deck.addAll(discardPile);
+        discardPile.clear();
     }
 
     public CommandCardField getProgramField(int i) {
