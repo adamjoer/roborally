@@ -25,6 +25,8 @@ import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 /**
  * ...
  *
@@ -36,6 +38,15 @@ public class GameController {
 
     public GameController(@NotNull Board board) {
         this.board = board;
+
+        for(int i = 0; i < this.board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            System.out.println("HERE");
+
+            for(int j = 0; j < 20; j++){
+                player.getDeck().add(generateRandomCommandCard());
+            }
+        }
     }
 
     /**
@@ -111,7 +122,9 @@ public class GameController {
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
+                    field.setCard(player.getDeck().get(0));
+                    player.getDiscardPile().add(player.getDeck().get(0));
+                    player.getDeck().remove(0);
                     field.setVisible(true);
                 }
             }
