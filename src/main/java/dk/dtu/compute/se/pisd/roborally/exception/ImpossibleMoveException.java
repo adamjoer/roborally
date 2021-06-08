@@ -6,9 +6,9 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 public class ImpossibleMoveException extends Exception {
 
-    private Player player;
-    private Space space;
-    private Heading heading;
+    public Player player;
+    public Space space;
+    public Heading heading;
 
     public ImpossibleMoveException(Player player, Space space, Heading heading) {
         super("Move impossible");
