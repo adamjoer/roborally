@@ -106,12 +106,12 @@ public class GameController {
         board.setStep(0);
 
         // Add programming cards to the players decks
-        if(firstProgrammingPhase){
+        if (firstProgrammingPhase) {
             firstProgrammingPhase = false;
-            for(int i = 0; i < this.board.getPlayersNumber(); i++) {
+            for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
 
-                for(int j = 0; j < Player.NO_PROGRAM_CARDS; j++){
+                for (int j = 0; j < Player.NO_PROGRAM_CARDS; j++) {
                     player.getDeck().add(generateRandomCommandCard());
                 }
             }
@@ -126,7 +126,7 @@ public class GameController {
                     field.setVisible(true);
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
-                    if(player.getDeck().size() == 0){
+                    if (player.getDeck().size() == 0) {
                         player.shuffleDeck();
                     }
                     CommandCardField field = player.getCardField(j);
