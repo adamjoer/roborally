@@ -357,10 +357,9 @@ class Repository implements IRepository {
         preparedStatement.setInt(1, game.getGameId());
 
         ResultSet resultSet = preparedStatement.executeQuery();
+        List<Command> commands = Arrays.asList(Command.values());
         for (int i = 0; i < game.getPlayersNumber(); i++) {
             Player player = game.getPlayer(i);
-
-            List<Command> commands = Arrays.asList(Command.values());
 
             for (int j = 0; j < Player.NO_CARDS; j++) {
                 Command command = player.getCardField(j).getCard().command;
@@ -380,11 +379,25 @@ class Repository implements IRepository {
         resultSet.close();
     }
 
-    private void updateCardFieldsInDB(Board game) throws SQLException {
+    private void loadCardFieldsFromDB(Board game) throws SQLException {
+        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        preparedStatement.setInt(1, game.getGameId());
 
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Command[] commands = Command.values();
+
+        while (resultSet.next()) {
+            int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
+            int cardIndex  = resultSet.getInt(CARD_FIELD_CARD_INDEX);
+            int command = resultSet.getInt(CARD_FIELD_COMMAND);
+
+            Player player = game.getPlayer(playerID);
+            player.getCardField(cardIndex).setCard(new CommandCard(commands[command]));
+        }
     }
 
-    private void loadCardFieldsFromDB(Board game) throws SQLException {
+    private void updateCardFieldsInDB(Board game) throws SQLException {
 
     }
 
