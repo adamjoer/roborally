@@ -36,17 +36,10 @@ public class GameController {
 
     final public Board board;
 
+    boolean firstProgrammingPhase = true;
+
     public GameController(@NotNull Board board) {
         this.board = board;
-
-        for(int i = 0; i < this.board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            System.out.println("HERE");
-
-            for(int j = 0; j < 20; j++){
-                player.getDeck().add(generateRandomCommandCard());
-            }
-        }
     }
 
     /**
@@ -112,6 +105,18 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
+        // Add programming cards to the players decks
+        if(firstProgrammingPhase){
+            firstProgrammingPhase = false;
+            for(int i = 0; i < this.board.getPlayersNumber(); i++) {
+                Player player = board.getPlayer(i);
+
+                for(int j = 0; j < Player.NO_PROGRAM_CARDS; j++){
+                    player.getDeck().add(generateRandomCommandCard());
+                }
+            }
+        }
+
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
@@ -121,6 +126,9 @@ public class GameController {
                     field.setVisible(true);
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
+                    if(player.getDeck().size() == 0){
+                        player.shuffleDeck();
+                    }
                     CommandCardField field = player.getCardField(j);
                     field.setCard(player.getDeck().get(0));
                     player.getDiscardPile().add(player.getDeck().get(0));
