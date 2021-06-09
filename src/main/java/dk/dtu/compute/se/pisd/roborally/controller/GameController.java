@@ -409,7 +409,7 @@ public class GameController {
     /**
      * Method for removing the cards in the players current hand, and then giving them new cards from their deck
      */
-    private void givePlayersNewCards(){
+    private void givePlayersNewCards() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
@@ -423,7 +423,7 @@ public class GameController {
                         player.shuffleDeck();
                     }
                     CommandCardField field = player.getCardField(j);
-                    if(field.getCard() != null){
+                    if (field.getCard() != null) {
                         player.getDiscardPile().add(field.getCard());
                         player.getDeck().remove(field.getCard());
                     }
