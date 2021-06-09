@@ -427,10 +427,7 @@ public class GameController {
                     // If there is already a card in the players hand, on this position, move it to discard pile
                     // before giving them a new card
                     CommandCardField field = player.getCardField(j);
-                    if (field.getCard() != null) {
-                        player.getDiscardPile().add(field.getCard());
-                        player.getDeck().remove(field.getCard());
-                    }
+
                     // Give player a new card
                     field.setCard(player.getDeck().get(0));
                     player.getDiscardPile().add(player.getDeck().get(0));
