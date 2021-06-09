@@ -85,6 +85,10 @@ public class GameController {
             player.setSpace(space);
         }
 
+        // Add 2 spam cards to player discard pile
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+
         givePlayerNewCards(player);
     }
 
@@ -105,7 +109,7 @@ public class GameController {
             }
         }
 
-        for(Player p : board.getPlayers()){
+        for (Player p : board.getPlayers()) {
             givePlayerNewCards(p);
         }
     }
@@ -180,6 +184,10 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
+                    // Remove the SPAM card completely
+                    if (command == Command.SPAM) {
+                        currentPlayer.getDiscardPile().remove(card);
+                    }
 
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
@@ -240,6 +248,8 @@ public class GameController {
                 case BACKWARDS:
                     this.backwards(player);
                     break;
+                case SPAM:
+                    this.spam(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -402,6 +412,17 @@ public class GameController {
         } else {
             return false;
         }
+    }
+
+
+    public void spam(@NotNull Player player) {
+        if(player.getDeck().size() == 0){
+            player.shuffleDeck();
+        }
+        // Take the top card in players deck, and activate it
+        player.getDiscardPile().add(player.getDeck().get(0));
+        player.getDeck().remove(0);
+        executeCommand(player, player.getDiscardPile().get(player.getDiscardPile().size() - 1).command);
     }
 
 
