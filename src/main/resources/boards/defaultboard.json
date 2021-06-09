@@ -1,6 +1,7 @@
 {
-  "width": 8,
-  "height": 8,
+  "width": 7,
+  "height": 7,
+  "checkPointCount": 2,
   "spaces": [
     {
       "walls": [
@@ -15,6 +16,47 @@
         }
       ],
       "x": 0,
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkPointNumber": "1"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 3,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkPointNumber": "1"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 6,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RebootSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 6,
       "y": 0,
       "isStartPoint": false
     },
