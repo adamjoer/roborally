@@ -52,8 +52,8 @@ public class Player extends Subject {
     private final CommandCardField[] program;
     private final CommandCardField[] cards;
 
-    private final List<CommandCard> deck = new ArrayList<>(NO_PROGRAM_CARDS);
-    private final List<CommandCard> discardPile = new ArrayList<>(NO_PROGRAM_CARDS);
+    private final ArrayList<CommandCard> deck = new ArrayList<>(NO_PROGRAM_CARDS);
+    private final ArrayList<CommandCard> discardPile = new ArrayList<>(NO_PROGRAM_CARDS);
 
     // The last checkpoint which the player has landed on
     private int currentCheckPoint = 0;
@@ -168,11 +168,28 @@ public class Player extends Subject {
         return currentCheckPoint;
     }
 
-    public List<CommandCard> getDeck() {
+    public ArrayList<CommandCard> getDeck() {
         return deck;
     }
 
-    public List<CommandCard> getDiscardPile() {
+    public ArrayList<CommandCard> getDiscardPile() {
         return discardPile;
+    }
+
+    public ArrayList<CommandCard> getCompleteDeck() {
+        ArrayList<CommandCard> completeDeck = new ArrayList<>();
+        completeDeck.addAll(deck);
+        completeDeck.addAll(discardPile);
+        for (int i = 0; i < Player.NO_CARDS; i++) {
+            CommandCard card = cards[i].getCard();
+            if (card != null)
+                completeDeck.add(card);
+        }
+        for (int i = 0; i < Player.NO_REGISTERS; i++) {
+            CommandCard card = program[i].getCard();
+            if (card != null)
+                completeDeck.add(card);
+        }
+        return completeDeck;
     }
 }
