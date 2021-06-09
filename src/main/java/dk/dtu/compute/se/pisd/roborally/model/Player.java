@@ -49,12 +49,11 @@ public class Player extends Subject {
     private Space space;
     private Heading heading = EAST;
 
-    private CommandCardField[] program;
-    private CommandCardField[] cards;
+    private final CommandCardField[] program;
+    private final CommandCardField[] cards;
 
-    private List<CommandCard> deck = new ArrayList<CommandCard>();
-    private List<CommandCard> discardPile = new ArrayList<CommandCard>();
-
+    private final List<CommandCard> deck = new ArrayList<>(NO_PROGRAM_CARDS);
+    private final List<CommandCard> discardPile = new ArrayList<>(NO_PROGRAM_CARDS);
 
     // The last checkpoint which the player has landed on
     private int currentCheckPoint = 0;
@@ -110,7 +109,7 @@ public class Player extends Subject {
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
+            (space == null || space.board == this.board)) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);
@@ -176,6 +175,4 @@ public class Player extends Subject {
     public List<CommandCard> getDiscardPile() {
         return discardPile;
     }
-
-
 }
