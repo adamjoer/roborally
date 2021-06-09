@@ -405,6 +405,10 @@ public class GameController {
         }
     }
 
+
+    /**
+     * Method for removing the cards in the players current hand, and then giving them new cards from their deck
+     */
     private void givePlayersNewCards(){
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
