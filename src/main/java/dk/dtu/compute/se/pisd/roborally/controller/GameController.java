@@ -36,8 +36,6 @@ public class GameController {
 
     final public Board board;
 
-    boolean firstProgrammingPhase = true;
-
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -96,9 +94,8 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        // Add programming cards to the players decks
-        if (firstProgrammingPhase) {
-            firstProgrammingPhase = false;
+        // Add programming cards to the players decks, if they don't have any
+        if (board.getPlayer(0).getDeck().size() == 0) {
             for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
 
