@@ -42,7 +42,7 @@
           }
         }
       ],
-      "x": 7,
+      "x": 6,
       "y": 3,
       "isStartPoint": false
     },
@@ -138,7 +138,7 @@
       "actions": [],
       "x": 3,
       "y": 2,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -159,7 +159,7 @@
       "actions": [],
       "x": 4,
       "y": 3,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -180,7 +180,7 @@
       "actions": [],
       "x": 5,
       "y": 4,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -201,7 +201,7 @@
       "actions": [],
       "x": 7,
       "y": 6,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -231,7 +231,7 @@
       ],
       "x": 2,
       "y": 2,
-      "isStartPoint": false
+      "isStartPoint": true
     },
     {
       "walls": [
@@ -322,7 +322,7 @@
           }
         }
       ],
-      "x": 3,
+      "x": 5,
       "y": 0,
       "isStartPoint": false
     }

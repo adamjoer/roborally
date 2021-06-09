@@ -56,7 +56,7 @@ public class ConveyorBelt extends FieldAction {
 
             }
         } catch (ImpossibleMoveException e) {
-            if (gameController.onEdge(e.space)){
+            if (gameController.onEdge(e.space, heading)){
                 gameController.moveToRebootSpace(e.player);
             } else {
                 e.printStackTrace();

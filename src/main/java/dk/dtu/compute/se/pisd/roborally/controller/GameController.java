@@ -67,21 +67,24 @@ public class GameController {
 
     public void moveToRebootSpace(Player player) {
 
-        try {
-            moveToSpace(player, board.getRebootSpace(), player.getHeading());
+        Space rebootSpace = board.getRebootSpace();
 
-        } catch (ImpossibleMoveException e) {
-            int x, y;
-            Space space;
-            do {
-                x = (int) (Math.random() * board.width);
-                y = (int) (Math.random() * board.height);
-                space = board.getSpace(x, y);
+        if (rebootSpace.getPlayer() != null) {
 
-            } while (space.getPlayer() != null);
+            Space space = null;
+            for (Heading heading : Heading.values()) {
+                space = board.getNeighbour(rebootSpace, heading);
+                if (space != null)
+                    break;
+            }
 
-            player.setSpace(space);
+            if (space == null)
+                throw new IllegalStateException("Nowhere to move player to after reboot");
+
+            rebootSpace.getPlayer().setSpace(space);
         }
+
+        player.setSpace(rebootSpace);
 
         for (int j = 0; j < Player.NO_REGISTERS; j++) {
             CommandCardField field = player.getProgramField(j);
@@ -90,8 +93,8 @@ public class GameController {
         }
         for (int j = 0; j < Player.NO_CARDS; j++) {
             CommandCardField field = player.getCardField(j);
-            field.setCard(generateRandomCommandCard());
-            field.setVisible(true);
+            field.setCard(null);
+            field.setVisible(false);
         }
     }
 
@@ -332,7 +335,7 @@ public class GameController {
                 moveToSpace(player, target, heading);
 
             } catch (ImpossibleMoveException e) {
-                if (onEdge(e.space)){
+                if (onEdge(e.space, heading)){
                     moveToRebootSpace(e.player);
                 } else {
                     e.printStackTrace();
@@ -346,8 +349,14 @@ public class GameController {
 //        }
     }
 
-    public boolean onEdge(Space space){
-        return space == null || space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1;
+    public boolean onEdge(Space space, Heading heading) {
+        if (space == null)
+            return true;
+
+        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
+
+        return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
+                !space.getWalls().contains(reverse);
     }
 
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
@@ -364,14 +373,18 @@ public class GameController {
             Space target = board.getNeighbour(space, heading);
 
             // If it is possible to move to the target space, recursively push any other potential players
-            if (target != null || !onEdge(target)) {
+            if (target != null) {
 
                 // XXX Note that there might be additional problems
                 // with infinite recursion here!
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                throw new ImpossibleMoveException(player, space, heading);
+                if(onEdge(space, heading)){
+                    moveToRebootSpace(other);
+                } else {
+                    throw new ImpossibleMoveException(other, space, heading);
+                }
             }
         }
 
