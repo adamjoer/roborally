@@ -87,16 +87,7 @@ public class GameController {
             player.setSpace(space);
         }
 
-        for (int j = 0; j < Player.NO_REGISTERS; j++) {
-            CommandCardField field = player.getProgramField(j);
-            field.setCard(null);
-            field.setVisible(false);
-        }
-        for (int j = 0; j < Player.NO_CARDS; j++) {
-            CommandCardField field = player.getCardField(j);
-            field.setCard(generateRandomCommandCard());
-            field.setVisible(true);
-        }
+        givePlayersNewCards();
     }
 
     // XXX: V2
@@ -117,26 +108,7 @@ public class GameController {
             }
         }
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
-                }
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    if (player.getDeck().size() == 0) {
-                        player.shuffleDeck();
-                    }
-                    CommandCardField field = player.getCardField(j);
-                    field.setCard(player.getDeck().get(0));
-                    player.getDiscardPile().add(player.getDeck().get(0));
-                    player.getDeck().remove(0);
-                    field.setVisible(true);
-                }
-            }
-        }
+        givePlayersNewCards();
     }
 
     // XXX: V2
@@ -430,6 +402,33 @@ public class GameController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void givePlayersNewCards(){
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getProgramField(j);
+                    field.setCard(null);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    if (player.getDeck().size() == 0) {
+                        player.shuffleDeck();
+                    }
+                    CommandCardField field = player.getCardField(j);
+                    if(field.getCard() != null){
+                        player.getDiscardPile().add(field.getCard());
+                        player.getDeck().remove(field.getCard());
+                    }
+                    field.setCard(player.getDeck().get(0));
+                    player.getDiscardPile().add(player.getDeck().get(0));
+                    player.getDeck().remove(0);
+                    field.setVisible(true);
+                }
+            }
         }
     }
 
