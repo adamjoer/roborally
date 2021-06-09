@@ -416,7 +416,7 @@ public class GameController {
 
 
     public void spam(@NotNull Player player) {
-        if(player.getDeck().size() == 0){
+        if (player.getDeck().size() == 0) {
             player.shuffleDeck();
         }
         // Take the top card in players deck, and activate it
@@ -434,8 +434,20 @@ public class GameController {
             //Clear the players registers
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
                 CommandCardField field = player.getProgramField(j);
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
+                }
+
                 field.setCard(null);
                 field.setVisible(true);
+            }
+
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
+                }
             }
 
             //Give them new cards on their hands
@@ -444,13 +456,11 @@ public class GameController {
                 if (player.getDeck().size() == 0) {
                     player.shuffleDeck();
                 }
-                // If there is already a card in the players hand, on this position, move it to discard pile
-                // before giving them a new card
+
                 CommandCardField field = player.getCardField(j);
 
                 // Give player a new card
                 field.setCard(player.getDeck().get(0));
-                player.getDiscardPile().add(player.getDeck().get(0));
                 player.getDeck().remove(0);
                 field.setVisible(true);
             }
