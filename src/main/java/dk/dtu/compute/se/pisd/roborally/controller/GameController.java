@@ -410,23 +410,31 @@ public class GameController {
      * Method for removing the cards in the players current hand, and then giving them new cards from their deck
      */
     private void givePlayersNewCards() {
+        // Iterate over all players in the game
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
+                //Clear the players registers
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
+
+                //Give them new cards on their hands
                 for (int j = 0; j < Player.NO_CARDS; j++) {
+                    // If their deck is empty, shuffle their discardpile, and use that as deck
                     if (player.getDeck().size() == 0) {
                         player.shuffleDeck();
                     }
+                    // If there is already a card in the players hand, on this position, move it to discard pile
+                    // before giving them a new card
                     CommandCardField field = player.getCardField(j);
                     if (field.getCard() != null) {
                         player.getDiscardPile().add(field.getCard());
                         player.getDeck().remove(field.getCard());
                     }
+                    // Give player a new card
                     field.setCard(player.getDeck().get(0));
                     player.getDiscardPile().add(player.getDeck().get(0));
                     player.getDeck().remove(0);
