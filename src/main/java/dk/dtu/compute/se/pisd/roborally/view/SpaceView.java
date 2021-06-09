@@ -124,6 +124,9 @@ public class SpaceView extends StackPane implements ViewObserver {
                     RotatingGearView.drawRotatingGear(this, action);
                 else if (action instanceof RebootSpace)
                     RebootSpaceView.drawRebootSpace(this, action);
+                else if (action instanceof  PitfallSpace){
+                    PitFallSpaceView.drawPitFallSpace(this, action);
+                }
             }
             for (Heading heading : space.getWalls())
                 drawWall(heading);
