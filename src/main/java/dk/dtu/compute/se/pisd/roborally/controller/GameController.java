@@ -322,7 +322,7 @@ public class GameController {
         Space target = board.getNeighbour(player.getSpace(), heading);
 
         // If it is possible, ie. getNeighbor didn't return null, move the player to the space
-        if (target != null) {
+
 
             // moveToSpace pushes any other players already on the target space
             // in the direction that the current player is moving
@@ -342,15 +342,17 @@ public class GameController {
                 // we do no pass it on to the caller
                 // (which would be very bad style).
             }
-        }
+
 //        }
     }
 
     public boolean onEdge(Space space){
-        return space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1;
+        return space == null || space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1;
     }
 
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+        if (space == null)
+            throw new ImpossibleMoveException(player, space, heading);
 
         // Get any potential players on target space
         Player other = space.getPlayer();
@@ -362,7 +364,7 @@ public class GameController {
             Space target = board.getNeighbour(space, heading);
 
             // If it is possible to move to the target space, recursively push any other potential players
-            if (target != null) {
+            if (target != null || !onEdge(target)) {
 
                 // XXX Note that there might be additional problems
                 // with infinite recursion here!
