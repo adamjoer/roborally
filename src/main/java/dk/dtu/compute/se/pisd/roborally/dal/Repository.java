@@ -361,6 +361,7 @@ class Repository implements IRepository {
         for (int i = 0; i < game.getPlayersNumber(); i++) {
             Player player = game.getPlayer(i);
 
+/*
             for (int j = 0; j < Player.NO_CARDS; j++) {
                 Command command = player.getCardField(j).getCard().command;
                 int commandIndex = commands.indexOf(command);
@@ -375,6 +376,30 @@ class Repository implements IRepository {
                 resultSet.updateInt(CARD_FIELD_PLAYERID, i);
 
                 resultSet.insertRow();
+            }
+*/
+
+            ArrayList<CommandCard> completeDeck = new ArrayList<>();
+            completeDeck.addAll(player.getDeck());
+            completeDeck.addAll(player.getDiscardPile());
+
+            int cardIndex = 0;
+            for (CommandCard commandCard : completeDeck) {
+                Command command = commandCard.command;
+                int commandIndex = commands.indexOf(command);
+
+                resultSet.moveToInsertRow();
+
+                System.out.printf("DB: Creating Player %d's command card (index=%d, command=%s)\n", i + 1, cardIndex, command);
+
+                resultSet.updateInt(CARD_FIELD_COMMAND, commandIndex);
+                resultSet.updateInt(CARD_FIELD_CARD_INDEX, cardIndex);
+                resultSet.updateInt(CARD_FIELD_GAMEID, player.board.getGameId());
+                resultSet.updateInt(CARD_FIELD_PLAYERID, i);
+
+                resultSet.insertRow();
+
+                cardIndex++;
             }
         }
 
@@ -391,13 +416,14 @@ class Repository implements IRepository {
 
         while (resultSet.next()) {
             int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
-            int cardIndex  = resultSet.getInt(CARD_FIELD_CARD_INDEX);
+            int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
             Command command = commands[resultSet.getInt(CARD_FIELD_COMMAND)];
 
-//            System.out.printf("DB: Loading Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
+            System.out.printf("DB: Loading Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
 
             Player player = game.getPlayer(playerID);
-            player.getCardField(cardIndex).setCard(new CommandCard(command));
+//            player.getCardField(cardIndex).setCard(new CommandCard(command));
+            player.getDeck().add(cardIndex, new CommandCard(command));
         }
     }
 
@@ -413,9 +439,17 @@ class Repository implements IRepository {
             int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
             int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
             Player player = game.getPlayer(playerID);
-            Command command = player.getCardField(cardIndex).getCard().command;
+//            Command command = player.getCardField(cardIndex).getCard().command;
 
-//            System.out.printf("DB: Updating Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
+            Command command;
+            try {
+                command = player.getDeck().get(cardIndex).command;
+            } catch (IndexOutOfBoundsException e) {
+                command = player.getDiscardPile().get(cardIndex - player.getDeck().size()).command;
+            }
+
+            System.out.printf("DB: Updating Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
+
 
             resultSet.updateInt(CARD_FIELD_COMMAND, commands.indexOf(command));
 
