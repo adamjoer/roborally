@@ -43,7 +43,9 @@ public enum Command {
     BACKWARDS("Bwd"),
 
     // XXX Assignment V3
-    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT),
+
+    SPAM("SPAM");
 
     final public String displayName;
 
