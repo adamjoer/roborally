@@ -367,6 +367,8 @@ class Repository implements IRepository {
 
                 resultSet.moveToInsertRow();
 
+//                System.out.printf("DB: Creating Player %d's command card (index=%d, command=%s)\n", i + 1, j, command);
+
                 resultSet.updateInt(CARD_FIELD_COMMAND, commandIndex);
                 resultSet.updateInt(CARD_FIELD_CARD_INDEX, j);
                 resultSet.updateInt(CARD_FIELD_GAMEID, player.board.getGameId());
@@ -390,15 +392,37 @@ class Repository implements IRepository {
         while (resultSet.next()) {
             int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
             int cardIndex  = resultSet.getInt(CARD_FIELD_CARD_INDEX);
-            int command = resultSet.getInt(CARD_FIELD_COMMAND);
+            Command command = commands[resultSet.getInt(CARD_FIELD_COMMAND)];
+
+//            System.out.printf("DB: Loading Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
 
             Player player = game.getPlayer(playerID);
-            player.getCardField(cardIndex).setCard(new CommandCard(commands[command]));
+            player.getCardField(cardIndex).setCard(new CommandCard(command));
         }
     }
 
     private void updateCardFieldsInDB(Board game) throws SQLException {
+        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        preparedStatement.setInt(1, game.getGameId());
 
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<Command> commands = Arrays.asList(Command.values());
+
+        while (resultSet.next()) {
+            int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
+            int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
+            Player player = game.getPlayer(playerID);
+            Command command = player.getCardField(cardIndex).getCard().command;
+
+//            System.out.printf("DB: Updating Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
+
+            resultSet.updateInt(CARD_FIELD_COMMAND, commands.indexOf(command));
+
+            resultSet.updateRow();
+        }
+
+        resultSet.close();
     }
 
     private static final String SQL_INSERT_GAME =
