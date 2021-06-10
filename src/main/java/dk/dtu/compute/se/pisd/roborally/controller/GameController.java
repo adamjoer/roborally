@@ -27,6 +27,8 @@ import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 /**
  * ...
  *
@@ -88,17 +90,7 @@ public class GameController {
                 }
             }
         }
-
-        for (int j = 0; j < Player.NO_REGISTERS; j++) {
-            CommandCardField field = player.getProgramField(j);
-            field.setCard(null);
-            field.setVisible(false);
-        }
-        for (int j = 0; j < Player.NO_CARDS; j++) {
-            CommandCardField field = player.getCardField(j);
-            field.setCard(null);
-            field.setVisible(false);
-        }
+        givePlayersNewCards();
     }
 
     // XXX: V2
@@ -107,21 +99,18 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
-                }
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
-                    field.setVisible(true);
+        // Add programming cards to the players decks, if they don't have any
+        if (board.getPlayer(0).getDeck().size() == 0) {
+            for (int i = 0; i < this.board.getPlayersNumber(); i++) {
+                Player player = board.getPlayer(i);
+
+                for (int j = 0; j < Player.NO_PROGRAM_CARDS; j++) {
+                    player.getDeck().add(generateRandomCommandCard());
                 }
             }
         }
+
+        givePlayersNewCards();
     }
 
     // XXX: V2
@@ -448,6 +437,42 @@ public class GameController {
             moveToRebootSpace(e.player);
         }
     }
+
+    /**
+     * Method for removing the cards in the players current hand, and then giving them new cards from their deck
+     */
+    private void givePlayersNewCards() {
+        // Iterate over all players in the game
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                //Clear the players registers
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getProgramField(j);
+                    field.setCard(null);
+                    field.setVisible(true);
+                }
+
+                //Give them new cards on their hands
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    // If their deck is empty, shuffle their discardpile, and use that as deck
+                    if (player.getDeck().size() == 0) {
+                        player.shuffleDeck();
+                    }
+                    // If there is already a card in the players hand, on this position, move it to discard pile
+                    // before giving them a new card
+                    CommandCardField field = player.getCardField(j);
+
+                    // Give player a new card
+                    field.setCard(player.getDeck().get(0));
+                    player.getDiscardPile().add(player.getDeck().get(0));
+                    player.getDeck().remove(0);
+                    field.setVisible(true);
+                }
+            }
+        }
+    }
+
 
     /**
      * A method called when no corresponding controller operation is implemented yet. This
