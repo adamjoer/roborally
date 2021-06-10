@@ -9,12 +9,10 @@ public class FatalMoveException extends MoveException {
 
     public FatalMoveException(Player player, Space space, Heading heading) {
         super("Move fatal", player, space, heading);
-        System.out.println("FatalMoveException thrown for going over edge");
     }
 
     public FatalMoveException(Player player, Player other, Space space, Heading heading) {
         super("Move fatal", player, space, heading);
         this.other = other;
-        System.out.println("FatalMoveException thrown for pushing other player over edge");
     }
 }
