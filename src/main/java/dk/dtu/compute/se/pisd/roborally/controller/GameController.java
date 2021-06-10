@@ -349,14 +349,6 @@ public class GameController {
         }
     }
 
-    public boolean onEdge(Space space, Heading heading) {
-        if (space == null)
-            return true;
-
-        return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
-               !space.isBlocked(heading);
-    }
-
     public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {
         if (space == null)
             throw new FatalMoveException(player, null, heading);
@@ -378,7 +370,7 @@ public class GameController {
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                if (onEdge(space, heading)) {
+                if (onOrOverEdge(space, heading)) {
                     throw new FatalMoveException(player, other, space, heading);
                 } else {
                     throw new ImpossibleMoveException(player, space, heading);
@@ -388,6 +380,14 @@ public class GameController {
 
         // Move the player to the new space
         player.setSpace(space);
+    }
+
+    private boolean onOrOverEdge(Space space, Heading heading) {
+        if (space == null)
+            return true;
+
+        return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
+               !space.isBlocked(heading);
     }
 
     public void fastForward(@NotNull Player player, int count) {
