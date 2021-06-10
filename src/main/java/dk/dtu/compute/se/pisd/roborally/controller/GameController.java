@@ -354,7 +354,7 @@ public class GameController {
             return true;
 
         return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
-               !space.getWalls().contains(heading.reverse());
+               !space.isBlocked(heading);
     }
 
     public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {

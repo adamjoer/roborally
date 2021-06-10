@@ -227,7 +227,7 @@ public class Board extends Subject {
         }
         Space result = getSpace(x, y);
         if (result != null) {
-            if (result.getWalls().contains(heading.reverse())) {
+            if (result.isBlocked(heading)) {
                 return null;
             }
         }
