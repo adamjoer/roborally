@@ -24,6 +24,10 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 
 /**
@@ -35,6 +39,7 @@ public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
+    final public static int NO_PROGRAM_CARDS = 20;
 
     final public Board board;
 
@@ -46,6 +51,9 @@ public class Player extends Subject {
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
+
+    private List<CommandCard> deck = new ArrayList<CommandCard>();
+    private List<CommandCard> discardPile = new ArrayList<CommandCard>();
 
 
     // The last checkpoint which the player has landed on
@@ -102,7 +110,7 @@ public class Player extends Subject {
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
-            (space == null || space.board == this.board)) {
+                (space == null || space.board == this.board)) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);
@@ -143,6 +151,12 @@ public class Player extends Subject {
         return true;
     }
 
+    public void shuffleDeck() {
+        Collections.shuffle(discardPile);
+        deck.addAll(discardPile);
+        discardPile.clear();
+    }
+
     public CommandCardField getProgramField(int i) {
         return program[i];
     }
@@ -151,8 +165,17 @@ public class Player extends Subject {
         return cards[i];
     }
 
-    public int getCurrentCheckPoint(){
+    public int getCurrentCheckPoint() {
         return currentCheckPoint;
     }
+
+    public List<CommandCard> getDeck() {
+        return deck;
+    }
+
+    public List<CommandCard> getDiscardPile() {
+        return discardPile;
+    }
+
 
 }
