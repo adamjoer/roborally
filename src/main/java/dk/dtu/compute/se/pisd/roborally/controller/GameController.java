@@ -327,6 +327,9 @@ public class GameController {
             Heading heading = player.getHeading();
             Space target = board.getNeighbour(player.getSpace(), heading);
 
+            if (target == null && !onOrOverEdge(player.getSpace(), heading))
+                return;
+
             // moveToSpace pushes any other players already on the target space
             // in the direction that the current player is moving
             // If the move is impossible, ie. any pushed player
