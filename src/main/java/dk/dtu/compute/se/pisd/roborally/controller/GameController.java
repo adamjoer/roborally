@@ -353,10 +353,8 @@ public class GameController {
         if (space == null)
             return true;
 
-        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
-
         return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
-               !space.getWalls().contains(reverse);
+               !space.getWalls().contains(heading.reverse());
     }
 
     public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {

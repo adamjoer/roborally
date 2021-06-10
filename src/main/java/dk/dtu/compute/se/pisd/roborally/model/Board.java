@@ -225,10 +225,9 @@ public class Board extends Subject {
                 x = (x + 1);
                 break;
         }
-        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
         Space result = getSpace(x, y);
         if (result != null) {
-            if (result.getWalls().contains(reverse)) {
+            if (result.getWalls().contains(heading.reverse())) {
                 return null;
             }
         }
