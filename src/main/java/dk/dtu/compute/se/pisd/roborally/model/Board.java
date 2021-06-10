@@ -22,8 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace;
-import dk.dtu.compute.se.pisd.roborally.controller.RebootSpace;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -97,7 +95,7 @@ public class Board extends Subject {
 
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
-                y >= 0 && y < height) {
+            y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -244,9 +242,10 @@ public class Board extends Subject {
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() +
-                ", Player: " + getCurrentPlayer().getName() +
-                ", Step: " + getStep() +
-                ", Counter: " + getCounter();
+               ", Player: " + getCurrentPlayer().getName() +
+               ", Checkpoints: " + getCurrentPlayer().getCurrentCheckPoint() +
+               ", Step: " + getStep() +
+               ", Counter: " + getCounter();
     }
 
     public int getCheckPointCount() {
