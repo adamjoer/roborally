@@ -64,6 +64,8 @@ public class Board extends Subject {
 
     private Space rebootSpace;
 
+    private Player playerWhoWon;
+
     public Board(int width, int height, @NotNull String boardName, int checkPointCount) {
         this.boardName = boardName;
         this.width = width;
@@ -269,5 +271,13 @@ public class Board extends Subject {
 
     public void setRebootSpace(Space rebootSpace) {
         this.rebootSpace = rebootSpace;
+    }
+
+    public void setPlayerWhoWon(Player player){
+        playerWhoWon = player;
+    }
+
+    public Player getPlayerWhoWon(){
+        return playerWhoWon;
     }
 }

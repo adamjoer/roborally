@@ -29,6 +29,7 @@ import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
@@ -140,7 +141,11 @@ public class AppController implements Observer {
             gameController = new GameController(board);
 
             // TODO: Restarts the game in the Programming Phase.........
-            gameController.startProgrammingPhase();
+            if(board.getPhase() == Phase.GAME_ENDED){
+                // DO NOTHING
+            } else{
+                gameController.startProgrammingPhase();
+            }
 
             roboRally.createBoardView(gameController);
         } else {

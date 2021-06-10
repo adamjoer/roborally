@@ -273,10 +273,11 @@ public class GameController {
             if (player.getCurrentCheckPoint() == checkPoints) {
                 System.out.println(player.getName() + " won the game");
 
-                System.exit(0);
+                board.setPlayerWhoWon(player);
+
+                board.setPhase(Phase.GAME_ENDED);
 
                 break;
-                // FIXME: Implement a solution that actually ends the game properly, instead of this hack
             }
         }
     }
@@ -392,7 +393,7 @@ public class GameController {
                 (space.x == board.width - 1 && heading == Heading.EAST) ||
                 (space.y == 0 && heading == Heading.NORTH) ||
                 (space.y == board.height - 1 && heading == Heading.SOUTH)) &&
-               !space.isBlocked(heading);
+                !space.isBlocked(heading);
     }
 
     public void fastForward(@NotNull Player player, int count) {

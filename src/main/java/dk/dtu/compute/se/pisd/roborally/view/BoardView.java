@@ -85,7 +85,15 @@ public class BoardView extends VBox implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == board) {
             Phase phase = board.getPhase();
-            statusLabel.setText(board.getStatusMessage());
+            if (phase == Phase.GAME_ENDED) {
+                try {
+                    statusLabel.setText(board.getPlayerWhoWon().getName() + " won the game!");
+                } catch (NullPointerException e) {
+                    statusLabel.setText("Game already finished");
+                }
+            } else {
+                statusLabel.setText(board.getStatusMessage());
+            }
         }
     }
 
