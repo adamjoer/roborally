@@ -315,7 +315,8 @@ public class GameController {
         }
 
         // Go on to the next command card
-        continuePrograms();
+        if (!board.isStepMode())
+            continuePrograms();
     }
 
     public void moveForward(@NotNull Player player) {
@@ -336,9 +337,6 @@ public class GameController {
             } catch (MoveException e) {
                 if (e instanceof FatalMoveException) {
                     fatalMoveExceptionHandler((FatalMoveException) e);
-
-                } else {
-                    e.printStackTrace();
                 }
                 // we don't do anything here for now;
                 // we just catch the exception so that
