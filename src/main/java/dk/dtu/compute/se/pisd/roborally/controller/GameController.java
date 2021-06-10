@@ -90,7 +90,12 @@ public class GameController {
                 }
             }
         }
-        givePlayersNewCards();
+
+        // Add 2 spam cards to player discard pile
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+
+        givePlayerNewCards(player);
     }
 
     // XXX: V2
@@ -101,7 +106,7 @@ public class GameController {
 
         // Add programming cards to the players decks, if they don't have any
         if (board.getPlayer(0).getDeck().size() == 0) {
-            for (int i = 0; i < this.board.getPlayersNumber(); i++) {
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
 
                 for (int j = 0; j < Player.NO_PROGRAM_CARDS; j++) {
@@ -110,13 +115,15 @@ public class GameController {
             }
         }
 
-        givePlayersNewCards();
+        for (Player p : board.getPlayers()) {
+            givePlayerNewCards(p);
+        }
     }
 
     // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
-        int random = (int) (Math.random() * commands.length);
+        int random = (int) (Math.random() * (commands.length - 1));
         return new CommandCard(commands[random]);
     }
 
@@ -183,6 +190,10 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
+                    // Remove the SPAM card completely
+                    if (command == Command.SPAM) {
+                        currentPlayer.getDiscardPile().remove(card);
+                    }
 
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
@@ -243,6 +254,8 @@ public class GameController {
                 case BACKWARDS:
                     this.backwards(player);
                     break;
+                case SPAM:
+                    this.spam(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -438,37 +451,54 @@ public class GameController {
         }
     }
 
+    public void spam(@NotNull Player player) {
+        if (player.getDeck().size() == 0) {
+            player.shuffleDeck();
+        }
+        // Take the top card in players deck, and activate it
+        player.getDiscardPile().add(player.getDeck().get(0));
+        player.getDeck().remove(0);
+        executeCommand(player, player.getDiscardPile().get(player.getDiscardPile().size() - 1).command);
+    }
+
+
     /**
      * Method for removing the cards in the players current hand, and then giving them new cards from their deck
      */
-    private void givePlayersNewCards() {
-        // Iterate over all players in the game
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                //Clear the players registers
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
+    private void givePlayerNewCards(Player player) {
+        if (player != null) {
+            //Clear the players registers
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                CommandCardField field = player.getProgramField(j);
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
                 }
 
-                //Give them new cards on their hands
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    // If their deck is empty, shuffle their discardpile, and use that as deck
-                    if (player.getDeck().size() == 0) {
-                        player.shuffleDeck();
-                    }
-                    // If there is already a card in the players hand, on this position, move it to discard pile
-                    // before giving them a new card
-                    CommandCardField field = player.getCardField(j);
+                field.setCard(null);
+                field.setVisible(true);
+            }
 
-                    // Give player a new card
-                    field.setCard(player.getDeck().get(0));
-                    player.getDiscardPile().add(player.getDeck().get(0));
-                    player.getDeck().remove(0);
-                    field.setVisible(true);
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
                 }
+            }
+
+            //Give them new cards on their hands
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                // If their deck is empty, shuffle their discardpile, and use that as deck
+                if (player.getDeck().size() == 0) {
+                    player.shuffleDeck();
+                }
+
+                CommandCardField field = player.getCardField(j);
+
+                // Give player a new card
+                field.setCard(player.getDeck().get(0));
+                player.getDeck().remove(0);
+                field.setVisible(true);
             }
         }
     }
