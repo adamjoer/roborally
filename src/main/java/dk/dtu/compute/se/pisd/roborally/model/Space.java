@@ -52,6 +52,10 @@ public class Space extends Subject {
         player = null;
     }
 
+    public boolean isBlocked(Heading heading) {
+        return walls.contains(heading.reverse());
+    }
+
     public Player getPlayer() {
         return player;
     }

@@ -21,7 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
+import dk.dtu.compute.se.pisd.roborally.exception.FatalMoveException;
+import dk.dtu.compute.se.pisd.roborally.exception.MoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,8 +56,10 @@ public class ConveyorBelt extends FieldAction {
                 gameController.moveToSpace(player, target, heading);
 
             }
-        } catch (ImpossibleMoveException e) {
-            e.printStackTrace();
+        } catch (MoveException e) {
+            if (e instanceof FatalMoveException) {
+                gameController.fatalMoveExceptionHandler((FatalMoveException) e);
+            }
         }
         return true;
     }

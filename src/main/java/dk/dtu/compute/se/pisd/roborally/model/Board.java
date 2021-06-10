@@ -22,7 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.RebootSpace;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -65,6 +64,8 @@ public class Board extends Subject {
 
     private Space rebootSpace;
 
+    private Player playerWhoWon;
+
     public Board(int width, int height, @NotNull String boardName, int checkPointCount) {
         this.boardName = boardName;
         this.width = width;
@@ -96,7 +97,7 @@ public class Board extends Subject {
 
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
-                y >= 0 && y < height) {
+            y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -214,22 +215,21 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
+                y = (y + 1);
                 break;
             case WEST:
-                x = (x + width - 1) % width;
+                x = (x - 1);
                 break;
             case NORTH:
-                y = (y + height - 1) % height;
+                y = (y - 1);
                 break;
             case EAST:
-                x = (x + 1) % width;
+                x = (x + 1);
                 break;
         }
-        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
         Space result = getSpace(x, y);
         if (result != null) {
-            if (result.getWalls().contains(reverse)) {
+            if (result.isBlocked(heading)) {
                 return null;
             }
         }
@@ -243,9 +243,10 @@ public class Board extends Subject {
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() +
-                ", Player: " + getCurrentPlayer().getName() +
-                ", Step: " + getStep() +
-                ", Counter: " + getCounter();
+               ", Player: " + getCurrentPlayer().getName() +
+               ", Checkpoints: " + getCurrentPlayer().getCurrentCheckPoint() +
+               ", Step: " + getStep() +
+               ", Counter: " + getCounter();
     }
 
     public int getCheckPointCount() {
@@ -270,5 +271,13 @@ public class Board extends Subject {
 
     public void setRebootSpace(Space rebootSpace) {
         this.rebootSpace = rebootSpace;
+    }
+
+    public void setPlayerWhoWon(Player player){
+        playerWhoWon = player;
+    }
+
+    public Player getPlayerWhoWon(){
+        return playerWhoWon;
     }
 }

@@ -229,6 +229,19 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 3,
+      "y": 2,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
             "heading": "NORTH",
@@ -496,6 +509,19 @@
         }
       ],
       "x": 4,
+      "y": 7,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 12,
       "y": 7,
       "isStartPoint": false
     },

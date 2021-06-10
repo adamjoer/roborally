@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.exception.MoveException;
+import dk.dtu.compute.se.pisd.roborally.exception.FatalMoveException;
 import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -69,23 +71,31 @@ public class GameController {
 
     public void moveToRebootSpace(Player player) {
 
-        try {
-            moveToSpace(player, board.getRebootSpace(), player.getHeading());
+        Space rebootSpace = board.getRebootSpace();
+        Heading heading = player.getHeading();
 
-        } catch (ImpossibleMoveException e) {
-            int x, y;
-            Space space;
-            do {
-                x = (int) (Math.random() * board.width);
-                y = (int) (Math.random() * board.height);
-                space = board.getSpace(x, y);
+        if (player.getSpace() != rebootSpace) {
+            for (int i = 0, n = Heading.values().length; i < n; i++) {
+                try {
+                    moveToSpace(player, rebootSpace, heading);
+                    break;
 
-            } while (space.getPlayer() != null);
+                } catch (MoveException e) {
+                    if (i != n - 1) {
+                        heading = heading.next();
+                        continue;
+                    }
 
-            player.setSpace(space);
+                    e.printStackTrace();
+                }
+            }
         }
 
-        givePlayersNewCards();
+        // Add 2 spam cards to player discard pile
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+        player.getDiscardPile().add(new CommandCard(Command.values()[8]));
+
+        givePlayerNewCards(player);
     }
 
     // XXX: V2
@@ -96,7 +106,7 @@ public class GameController {
 
         // Add programming cards to the players decks, if they don't have any
         if (board.getPlayer(0).getDeck().size() == 0) {
-            for (int i = 0; i < this.board.getPlayersNumber(); i++) {
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
 
                 for (int j = 0; j < Player.NO_PROGRAM_CARDS; j++) {
@@ -105,13 +115,15 @@ public class GameController {
             }
         }
 
-        givePlayersNewCards();
+        for (Player p : board.getPlayers()) {
+            givePlayerNewCards(p);
+        }
     }
 
     // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
-        int random = (int) (Math.random() * commands.length);
+        int random = (int) (Math.random() * (commands.length - 1));
         return new CommandCard(commands[random]);
     }
 
@@ -178,6 +190,10 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
+                    // Remove the SPAM card completely
+                    if (command == Command.SPAM) {
+                        currentPlayer.getDiscardPile().remove(card);
+                    }
 
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
@@ -218,7 +234,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    this.moveStep(player, player.getHeading());
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -238,6 +254,8 @@ public class GameController {
                 case BACKWARDS:
                     this.backwards(player);
                     break;
+                case SPAM:
+                    this.spam(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -255,10 +273,11 @@ public class GameController {
             if (player.getCurrentCheckPoint() == checkPoints) {
                 System.out.println(player.getName() + " won the game");
 
-                System.exit(0);
+                board.setPlayerWhoWon(player);
+
+                board.setPhase(Phase.GAME_ENDED);
 
                 break;
-                // FIXME: Implement a solution that actually ends the game properly, instead of this hack
             }
         }
     }
@@ -299,20 +318,19 @@ public class GameController {
         }
 
         // Go on to the next command card
-        continuePrograms();
+        if (!board.isStepMode())
+            continuePrograms();
     }
 
-    public void moveForward(@NotNull Player player) {
+    public void moveStep(@NotNull Player player, Heading heading) {
 
-        // TODO: is this if-statement necessary?
-//        if (player.board == board) {
+        if (player.board == board) {
 
-        // Calculate the target space based on the players heading
-        Heading heading = player.getHeading();
-        Space target = board.getNeighbour(player.getSpace(), heading);
+            // Calculate the target space based on the players heading
+            Space target = board.getNeighbour(player.getSpace(), heading);
 
-        // If it is possible, ie. getNeighbor didn't return null, move the player to the space
-        if (target != null) {
+            if (target == null && !onOrOverEdge(player.getSpace(), heading))
+                return;
 
             // moveToSpace pushes any other players already on the target space
             // in the direction that the current player is moving
@@ -321,17 +339,22 @@ public class GameController {
             try {
                 moveToSpace(player, target, heading);
 
-            } catch (ImpossibleMoveException e) {
+            } catch (MoveException e) {
+                if (e instanceof FatalMoveException) {
+                    fatalMoveExceptionHandler((FatalMoveException) e);
+                }
                 // we don't do anything here for now;
                 // we just catch the exception so that
                 // we do no pass it on to the caller
                 // (which would be very bad style).
             }
+
         }
-//        }
     }
 
-    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+    public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {
+        if (space == null)
+            throw new FatalMoveException(player, null, heading);
 
         // Get any potential players on target space
         Player other = space.getPlayer();
@@ -350,7 +373,11 @@ public class GameController {
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                throw new ImpossibleMoveException(player, space, heading);
+                if (onOrOverEdge(space, heading)) {
+                    throw new FatalMoveException(player, other, space, heading);
+                } else {
+                    throw new ImpossibleMoveException(player, space, heading);
+                }
             }
         }
 
@@ -358,24 +385,32 @@ public class GameController {
         player.setSpace(space);
     }
 
+    private boolean onOrOverEdge(Space space, Heading heading) {
+        if (space == null)
+            return true;
+
+        return ((space.x == 0 && heading == Heading.WEST) ||
+                (space.x == board.width - 1 && heading == Heading.EAST) ||
+                (space.y == 0 && heading == Heading.NORTH) ||
+                (space.y == board.height - 1 && heading == Heading.SOUTH)) &&
+                !space.isBlocked(heading);
+    }
+
     public void fastForward(@NotNull Player player, int count) {
 
         // TODO: Maybe throw an exception if count is less than or equal to zero
 
         for (int i = 0; i < count; i++) {
-            moveForward(player);
+            moveStep(player, player.getHeading());
         }
     }
 
     public void backwards(@NotNull Player player) {
-        reverse(player);
-        moveForward(player);
-        reverse(player);
+        moveStep(player, player.getHeading().reverse());
     }
 
     public void reverse(@NotNull Player player) {
-        turnRight(player);
-        turnRight(player);
+        player.setHeading(player.getHeading().reverse());
     }
 
     public void turnRight(@NotNull Player player) {
@@ -402,38 +437,69 @@ public class GameController {
         }
     }
 
+    public void fatalMoveExceptionHandler(FatalMoveException e) {
+        if (e.other != null) {
+            moveToRebootSpace(e.other);
+
+            try {
+                moveToSpace(e.player, e.space, e.heading);
+            } catch (MoveException eOther) {
+                eOther.printStackTrace();
+            }
+
+        } else {
+            moveToRebootSpace(e.player);
+        }
+    }
+
+    public void spam(@NotNull Player player) {
+        if (player.getDeck().size() == 0) {
+            player.shuffleDeck();
+        }
+        // Take the top card in players deck, and activate it
+        player.getDiscardPile().add(player.getDeck().get(0));
+        player.getDeck().remove(0);
+        executeCommand(player, player.getDiscardPile().get(player.getDiscardPile().size() - 1).command);
+    }
+
 
     /**
      * Method for removing the cards in the players current hand, and then giving them new cards from their deck
      */
-    private void givePlayersNewCards() {
-        // Iterate over all players in the game
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                //Clear the players registers
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
+    private void givePlayerNewCards(Player player) {
+        if (player != null) {
+            //Clear the players registers
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                CommandCardField field = player.getProgramField(j);
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
                 }
 
-                //Give them new cards on their hands
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    // If their deck is empty, shuffle their discardpile, and use that as deck
-                    if (player.getDeck().size() == 0) {
-                        player.shuffleDeck();
-                    }
-                    // If there is already a card in the players hand, on this position, move it to discard pile
-                    // before giving them a new card
-                    CommandCardField field = player.getCardField(j);
+                field.setCard(null);
+                field.setVisible(true);
+            }
 
-                    // Give player a new card
-                    field.setCard(player.getDeck().get(0));
-                    player.getDiscardPile().add(player.getDeck().get(0));
-                    player.getDeck().remove(0);
-                    field.setVisible(true);
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+
+                if (field.getCard() != null) {
+                    player.getDiscardPile().add(field.getCard());
                 }
+            }
+
+            //Give them new cards on their hands
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                // If their deck is empty, shuffle their discardpile, and use that as deck
+                if (player.getDeck().size() == 0) {
+                    player.shuffleDeck();
+                }
+
+                CommandCardField field = player.getCardField(j);
+
+                // Give player a new card
+                field.setCard(player.getDeck().get(0));
+                player.getDeck().remove(0);
+                field.setVisible(true);
             }
         }
     }
