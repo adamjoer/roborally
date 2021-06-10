@@ -370,8 +370,6 @@ class Repository implements IRepository {
 
                 resultSet.moveToInsertRow();
 
-                System.out.printf("DB: Creating Player %d's command card (index=%d, command=%s)\n", i + 1, cardIndex, command);
-
                 resultSet.updateInt(CARD_FIELD_COMMAND, commandIndex);
                 resultSet.updateInt(CARD_FIELD_CARD_INDEX, cardIndex);
                 resultSet.updateInt(CARD_FIELD_GAMEID, player.board.getGameId());
@@ -399,8 +397,6 @@ class Repository implements IRepository {
             int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
             Command command = commands[resultSet.getInt(CARD_FIELD_COMMAND)];
 
-            System.out.printf("DB: Loading Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
-
             Player player = game.getPlayer(playerID);
             player.getDeck().add(cardIndex, new CommandCard(command));
         }
@@ -424,7 +420,6 @@ class Repository implements IRepository {
             int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
             int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
             Command command = lists.get(playerID).get(cardIndex).command;
-            System.out.printf("DB: Updating Player %d's command card (index=%d, command=%s)\n", playerID + 1, cardIndex, command);
 
             resultSet.updateInt(CARD_FIELD_COMMAND, commands.indexOf(command));
 
