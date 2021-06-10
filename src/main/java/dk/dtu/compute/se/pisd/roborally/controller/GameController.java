@@ -387,7 +387,10 @@ public class GameController {
         if (space == null)
             return true;
 
-        return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
+        return ((space.x == 0 && heading == Heading.WEST) ||
+                (space.x == board.width - 1 && heading == Heading.EAST) ||
+                (space.y == 0 && heading == Heading.NORTH) ||
+                (space.y == board.height - 1 && heading == Heading.SOUTH)) &&
                !space.isBlocked(heading);
     }
 
