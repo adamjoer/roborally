@@ -1,6 +1,7 @@
 {
-  "width": 8,
-  "height": 8,
+  "width": 7,
+  "height": 7,
+  "checkPointCount": 2,
   "spaces": [
     {
       "walls": [
@@ -15,6 +16,60 @@
         }
       ],
       "x": 0,
+      "y": 0,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkPointNumber": "1"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 3,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 6,
+      "y": 3,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkPointNumber": "1"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 6,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.RebootSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 6,
       "y": 0,
       "isStartPoint": false
     },
@@ -83,7 +138,7 @@
       "actions": [],
       "x": 3,
       "y": 2,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -104,7 +159,7 @@
       "actions": [],
       "x": 4,
       "y": 3,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -125,7 +180,7 @@
       "actions": [],
       "x": 5,
       "y": 4,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -146,7 +201,7 @@
       "actions": [],
       "x": 7,
       "y": 6,
-      "isStartPoint": true
+      "isStartPoint": false
     },
     {
       "walls": [],
@@ -176,7 +231,7 @@
       ],
       "x": 2,
       "y": 2,
-      "isStartPoint": false
+      "isStartPoint": true
     },
     {
       "walls": [
@@ -256,6 +311,19 @@
       ],
       "x": 7,
       "y": 7,
+      "isStartPoint": false
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 5,
+      "y": 0,
       "isStartPoint": false
     }
   ]

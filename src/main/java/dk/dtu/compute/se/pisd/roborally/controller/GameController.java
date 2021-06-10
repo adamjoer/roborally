@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.exception.MoveException;
+import dk.dtu.compute.se.pisd.roborally.exception.FatalMoveException;
 import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -69,20 +71,24 @@ public class GameController {
 
     public void moveToRebootSpace(Player player) {
 
-        try {
-            moveToSpace(player, board.getRebootSpace(), player.getHeading());
+        Space rebootSpace = board.getRebootSpace();
+        Heading heading = player.getHeading();
 
-        } catch (ImpossibleMoveException e) {
-            int x, y;
-            Space space;
-            do {
-                x = (int) (Math.random() * board.width);
-                y = (int) (Math.random() * board.height);
-                space = board.getSpace(x, y);
+        if (player.getSpace() != rebootSpace) {
+            for (int i = 0, n = Heading.values().length; i < n; i++) {
+                try {
+                    moveToSpace(player, rebootSpace, heading);
+                    break;
 
-            } while (space.getPlayer() != null);
+                } catch (MoveException e) {
+                    if (i != n - 1) {
+                        heading = heading.next();
+                        continue;
+                    }
 
-            player.setSpace(space);
+                    e.printStackTrace();
+                }
+            }
         }
 
         // Add 2 spam cards to player discard pile
@@ -228,7 +234,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    this.moveStep(player, player.getHeading());
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -311,20 +317,19 @@ public class GameController {
         }
 
         // Go on to the next command card
-        continuePrograms();
+        if (!board.isStepMode())
+            continuePrograms();
     }
 
-    public void moveForward(@NotNull Player player) {
+    public void moveStep(@NotNull Player player, Heading heading) {
 
-        // TODO: is this if-statement necessary?
-//        if (player.board == board) {
+        if (player.board == board) {
 
-        // Calculate the target space based on the players heading
-        Heading heading = player.getHeading();
-        Space target = board.getNeighbour(player.getSpace(), heading);
+            // Calculate the target space based on the players heading
+            Space target = board.getNeighbour(player.getSpace(), heading);
 
-        // If it is possible, ie. getNeighbor didn't return null, move the player to the space
-        if (target != null) {
+            if (target == null && !onOrOverEdge(player.getSpace(), heading))
+                return;
 
             // moveToSpace pushes any other players already on the target space
             // in the direction that the current player is moving
@@ -333,17 +338,22 @@ public class GameController {
             try {
                 moveToSpace(player, target, heading);
 
-            } catch (ImpossibleMoveException e) {
+            } catch (MoveException e) {
+                if (e instanceof FatalMoveException) {
+                    fatalMoveExceptionHandler((FatalMoveException) e);
+                }
                 // we don't do anything here for now;
                 // we just catch the exception so that
                 // we do no pass it on to the caller
                 // (which would be very bad style).
             }
+
         }
-//        }
     }
 
-    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+    public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {
+        if (space == null)
+            throw new FatalMoveException(player, null, heading);
 
         // Get any potential players on target space
         Player other = space.getPlayer();
@@ -362,7 +372,11 @@ public class GameController {
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                throw new ImpossibleMoveException(player, space, heading);
+                if (onOrOverEdge(space, heading)) {
+                    throw new FatalMoveException(player, other, space, heading);
+                } else {
+                    throw new ImpossibleMoveException(player, space, heading);
+                }
             }
         }
 
@@ -370,24 +384,32 @@ public class GameController {
         player.setSpace(space);
     }
 
+    private boolean onOrOverEdge(Space space, Heading heading) {
+        if (space == null)
+            return true;
+
+        return ((space.x == 0 && heading == Heading.WEST) ||
+                (space.x == board.width - 1 && heading == Heading.EAST) ||
+                (space.y == 0 && heading == Heading.NORTH) ||
+                (space.y == board.height - 1 && heading == Heading.SOUTH)) &&
+               !space.isBlocked(heading);
+    }
+
     public void fastForward(@NotNull Player player, int count) {
 
         // TODO: Maybe throw an exception if count is less than or equal to zero
 
         for (int i = 0; i < count; i++) {
-            moveForward(player);
+            moveStep(player, player.getHeading());
         }
     }
 
     public void backwards(@NotNull Player player) {
-        reverse(player);
-        moveForward(player);
-        reverse(player);
+        moveStep(player, player.getHeading().reverse());
     }
 
     public void reverse(@NotNull Player player) {
-        turnRight(player);
-        turnRight(player);
+        player.setHeading(player.getHeading().reverse());
     }
 
     public void turnRight(@NotNull Player player) {
@@ -414,6 +436,20 @@ public class GameController {
         }
     }
 
+    public void fatalMoveExceptionHandler(FatalMoveException e) {
+        if (e.other != null) {
+            moveToRebootSpace(e.other);
+
+            try {
+                moveToSpace(e.player, e.space, e.heading);
+            } catch (MoveException eOther) {
+                eOther.printStackTrace();
+            }
+
+        } else {
+            moveToRebootSpace(e.player);
+        }
+    }
 
     public void spam(@NotNull Player player) {
         if (player.getDeck().size() == 0) {
