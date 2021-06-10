@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.exception.MoveException;
+import dk.dtu.compute.se.pisd.roborally.exception.FatalMoveException;
 import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -68,23 +70,24 @@ public class GameController {
     public void moveToRebootSpace(Player player) {
 
         Space rebootSpace = board.getRebootSpace();
+        Heading heading = player.getHeading();
 
-        if (rebootSpace.getPlayer() != null) {
-
-            Space space = null;
-            for (Heading heading : Heading.values()) {
-                space = board.getNeighbour(rebootSpace, heading);
-                if (space != null)
+        if (player.getSpace() != rebootSpace) {
+            for (int i = 0, n = Heading.values().length; i < n; i++) {
+                try {
+                    moveToSpace(player, rebootSpace, heading);
                     break;
+
+                } catch (MoveException e) {
+                    if (i != n - 1) {
+                        heading = heading.next();
+                        continue;
+                    }
+
+                    e.printStackTrace();
+                }
             }
-
-            if (space == null)
-                throw new IllegalStateException("Nowhere to move player to after reboot");
-
-            rebootSpace.getPlayer().setSpace(space);
         }
-
-        player.setSpace(rebootSpace);
 
         for (int j = 0; j < Player.NO_REGISTERS; j++) {
             CommandCardField field = player.getProgramField(j);
@@ -317,15 +320,11 @@ public class GameController {
 
     public void moveForward(@NotNull Player player) {
 
-        // TODO: is this if-statement necessary?
-//        if (player.board == board) {
+        if (player.board == board) {
 
-        // Calculate the target space based on the players heading
-        Heading heading = player.getHeading();
-        Space target = board.getNeighbour(player.getSpace(), heading);
-
-        // If it is possible, ie. getNeighbor didn't return null, move the player to the space
-
+            // Calculate the target space based on the players heading
+            Heading heading = player.getHeading();
+            Space target = board.getNeighbour(player.getSpace(), heading);
 
             // moveToSpace pushes any other players already on the target space
             // in the direction that the current player is moving
@@ -334,9 +333,10 @@ public class GameController {
             try {
                 moveToSpace(player, target, heading);
 
-            } catch (ImpossibleMoveException e) {
-                if (onEdge(e.space, heading)){
-                    moveToRebootSpace(e.player);
+            } catch (MoveException e) {
+                if (e instanceof FatalMoveException) {
+                    fatalMoveExceptionHandler((FatalMoveException) e);
+
                 } else {
                     e.printStackTrace();
                 }
@@ -346,7 +346,7 @@ public class GameController {
                 // (which would be very bad style).
             }
 
-//        }
+        }
     }
 
     public boolean onEdge(Space space, Heading heading) {
@@ -356,12 +356,12 @@ public class GameController {
         Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
 
         return (space.x == 0 || space.x == board.width - 1 || space.y == 0 || space.y == board.height - 1) &&
-                !space.getWalls().contains(reverse);
+               !space.getWalls().contains(reverse);
     }
 
-    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+    public void moveToSpace(Player player, Space space, Heading heading) throws MoveException {
         if (space == null)
-            throw new ImpossibleMoveException(player, space, heading);
+            throw new FatalMoveException(player, null, heading);
 
         // Get any potential players on target space
         Player other = space.getPlayer();
@@ -380,10 +380,10 @@ public class GameController {
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                if(onEdge(space, heading)){
-                    moveToRebootSpace(other);
+                if (onEdge(space, heading)) {
+                    throw new FatalMoveException(player, other, space, heading);
                 } else {
-                    throw new ImpossibleMoveException(other, space, heading);
+                    throw new ImpossibleMoveException(player, space, heading);
                 }
             }
         }
@@ -436,6 +436,20 @@ public class GameController {
         }
     }
 
+    public void fatalMoveExceptionHandler(FatalMoveException e) {
+        if (e.other != null) {
+            moveToRebootSpace(e.other);
+
+            try {
+                moveToSpace(e.player, e.space, e.heading);
+            } catch (MoveException eOther) {
+                eOther.printStackTrace();
+            }
+
+        } else {
+            moveToRebootSpace(e.player);
+        }
+    }
 
     /**
      * A method called when no corresponding controller operation is implemented yet. This
