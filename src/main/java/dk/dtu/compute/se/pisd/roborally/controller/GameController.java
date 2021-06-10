@@ -234,7 +234,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    this.moveStep(player, player.getHeading());
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -319,12 +319,11 @@ public class GameController {
             continuePrograms();
     }
 
-    public void moveForward(@NotNull Player player) {
+    public void moveStep(@NotNull Player player, Heading heading) {
 
         if (player.board == board) {
 
             // Calculate the target space based on the players heading
-            Heading heading = player.getHeading();
             Space target = board.getNeighbour(player.getSpace(), heading);
 
             if (target == null && !onOrOverEdge(player.getSpace(), heading))
@@ -399,19 +398,16 @@ public class GameController {
         // TODO: Maybe throw an exception if count is less than or equal to zero
 
         for (int i = 0; i < count; i++) {
-            moveForward(player);
+            moveStep(player, player.getHeading());
         }
     }
 
     public void backwards(@NotNull Player player) {
-        reverse(player);
-        moveForward(player);
-        reverse(player);
+        moveStep(player, player.getHeading().reverse());
     }
 
     public void reverse(@NotNull Player player) {
-        turnRight(player);
-        turnRight(player);
+        player.setHeading(player.getHeading().reverse());
     }
 
     public void turnRight(@NotNull Player player) {
