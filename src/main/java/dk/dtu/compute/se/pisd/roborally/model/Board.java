@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -203,10 +205,6 @@ public class Board extends Subject {
         if (space.getWalls().contains(heading)) {
             return null;
         }
-        // TODO needs to be implemented based on the actual spaces
-        //      and obstacles and walls placed there. For now it,
-        //      just calculates the next space in the respective
-        //      direction in a cyclic way.
 
         // XXX an other option (not for now) would be that null represents a hole
         //     or the edge of the board in which the players can fall
@@ -214,18 +212,10 @@ public class Board extends Subject {
         int x = space.x;
         int y = space.y;
         switch (heading) {
-            case SOUTH:
-                y = (y + 1);
-                break;
-            case WEST:
-                x = (x - 1);
-                break;
-            case NORTH:
-                y = (y - 1);
-                break;
-            case EAST:
-                x = (x + 1);
-                break;
+            case SOUTH -> y++;
+            case WEST -> x--;
+            case NORTH -> y--;
+            case EAST -> x++;
         }
         Space result = getSpace(x, y);
         if (result != null) {
