@@ -5,12 +5,11 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
 
 public class ConveyorBeltView {
 
     public static void drawConveyorBelt(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         ConveyorBelt conveyorBelt = (ConveyorBelt) action;
 
@@ -21,17 +20,23 @@ public class ConveyorBeltView {
 
         if (conveyorBelt.isDoubleMove()) {
             graphicsContext.setStroke(Color.LIGHTBLUE);
-            xList = new double[]{20., 30., 47.5, 30., 20., 33., 10., 10., 33.};
-            yList = new double[]{20., 20., 37.5, 55., 55., 42., 42., 33., 33.};
+            xList = new double[]{0.267, 0.400, 0.633, 0.400, 0.267, 0.440, 0.133, 0.133, 0.440};
+            yList = new double[]{0.267, 0.267, 0.500, 0.733, 0.733, 0.560, 0.560, 0.440, 0.440};
+            xList = spaceView.scaleDoublesToFit(xList);
+            yList = spaceView.scaleDoublesToFit(yList);
             graphicsContext.strokePolygon(xList, yList, xList.length);
 
-            xList = new double[]{32.5, 42.5, 60., 42.5, 32.5, 50};
-            yList = new double[]{20., 20., 37.5, 55., 55., 37.5};
+            xList = new double[]{0.433, 0.567, 0.800, 0.567, 0.433, 0.667};
+            yList = new double[]{0.267, 0.267, 0.500, 0.733, 0.733, 0.500};
+            xList = spaceView.scaleDoublesToFit(xList);
+            yList = spaceView.scaleDoublesToFit(yList);
             graphicsContext.strokePolygon(xList, yList, xList.length);
         } else {
             graphicsContext.setStroke(Color.OLIVE);
-            xList = new double[]{30., 40., 57.5, 40., 30., 43., 20., 20., 43.};
-            yList = new double[]{20., 20., 37.5, 55., 55., 42., 42., 33., 33.};
+            xList = new double[]{0.400, 0.533, 0.767, 0.533, 0.400, 0.573, 0.267, 0.267, 0.573};
+            yList = new double[]{0.267, 0.267, 0.500, 0.733, 0.733, 0.560, 0.560, 0.440, 0.440};
+            xList = spaceView.scaleDoublesToFit(xList);
+            yList = spaceView.scaleDoublesToFit(yList);
 
             graphicsContext.strokePolygon(xList, yList, xList.length);
         }

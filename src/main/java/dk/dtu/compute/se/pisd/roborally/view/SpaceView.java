@@ -39,23 +39,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    private int spaceSize;
 
     public final Space space;
 
 
-    public SpaceView(@NotNull Space space) {
+    public SpaceView(@NotNull Space space, int spaceSize) {
         this.space = space;
+        this.spaceSize = spaceSize;
 
         // XXX the following styling should better be done with styles
-        this.setPrefWidth(SPACE_WIDTH);
-        this.setMinWidth(SPACE_WIDTH);
-        this.setMaxWidth(SPACE_WIDTH);
+        this.setPrefWidth(this.spaceSize);
+        this.setMinWidth(this.spaceSize);
+        this.setMaxWidth(this.spaceSize);
 
-        this.setPrefHeight(SPACE_HEIGHT);
-        this.setMinHeight(SPACE_HEIGHT);
-        this.setMaxHeight(SPACE_HEIGHT);
+        this.setPrefHeight(this.spaceSize);
+        this.setMinHeight(this.spaceSize);
+        this.setMaxHeight(this.spaceSize);
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
@@ -72,9 +72,11 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Player player = space.getPlayer();
         if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0);
+            double[] doubles = new double[]{0.0, 0.0,
+                    0.133, 0.266,
+                    0.266, 0.0};
+            doubles = scaleDoublesToFit(doubles);
+            Polygon arrow = new Polygon(doubles);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
@@ -88,13 +90,13 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void drawWall(Heading heading) {
         Pane pane = new Pane();
-        Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+        Rectangle rectangle = new Rectangle(0.0, 0.0, spaceSize, spaceSize);
         rectangle.setFill(Color.TRANSPARENT);
         pane.getChildren().add(rectangle);
 
         double upLeft = 2;
-        double right = SPACE_WIDTH - 2;
-        double down = SPACE_HEIGHT - 2;
+        double right = spaceSize - 2;
+        double down = spaceSize - 2;
         Line line = null;
 
         switch (heading) {
@@ -108,6 +110,22 @@ public class SpaceView extends StackPane implements ViewObserver {
         line.setStrokeWidth(5);
         pane.getChildren().add(line);
         this.getChildren().add(pane);
+    }
+
+    public double[] mirrorDoubles(double[] doubles) {
+        double[] mirroredDoubles = new double[doubles.length];
+        for (int i = 0; i < doubles.length; i++) {
+            mirroredDoubles[i] = 1 - doubles[i];
+        }
+        return mirroredDoubles;
+    }
+
+    public double[] scaleDoublesToFit(double[] doubles) {
+        double[] scaledDoubles = new double[doubles.length];
+        for (int i = 0; i < doubles.length; i++) {
+            scaledDoubles[i] = doubles[i] * spaceSize;
+        }
+        return scaledDoubles;
     }
 
     @Override
@@ -124,7 +142,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                     RotatingGearView.drawRotatingGear(this, action);
                 else if (action instanceof RebootSpace)
                     RebootSpaceView.drawRebootSpace(this, action);
-                else if (action instanceof  PitfallSpace){
+                else if (action instanceof PitfallSpace) {
                     PitFallSpaceView.drawPitFallSpace(this, action);
                 }
             }
@@ -132,5 +150,9 @@ public class SpaceView extends StackPane implements ViewObserver {
                 drawWall(heading);
             updatePlayer();
         }
+    }
+
+    public int getSpaceSize() {
+        return this.spaceSize;
     }
 }
