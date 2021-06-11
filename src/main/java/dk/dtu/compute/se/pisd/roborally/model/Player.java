@@ -174,19 +174,24 @@ public class Player extends Subject {
     }
 
     public ArrayList<CommandCard> getCompleteDeck() {
+
         ArrayList<CommandCard> completeDeck = new ArrayList<>();
-        completeDeck.addAll(deck);
-        completeDeck.addAll(discardPile);
-        for (int i = 0; i < Player.NO_CARDS; i++) {
-            CommandCard card = cards[i].getCard();
-            if (card != null)
-                completeDeck.add(card);
-        }
         for (int i = 0; i < Player.NO_REGISTERS; i++) {
             CommandCard card = program[i].getCard();
             if (card != null)
                 completeDeck.add(card);
         }
+
+        for (int i = 0; i < Player.NO_CARDS; i++) {
+            CommandCard card = cards[i].getCard();
+            if (card != null) {
+                completeDeck.add(card);
+            }
+        }
+
+        completeDeck.addAll(deck);
+        completeDeck.addAll(discardPile);
+
         return completeDeck;
     }
 }
