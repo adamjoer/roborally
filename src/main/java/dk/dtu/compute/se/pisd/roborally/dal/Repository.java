@@ -65,11 +65,11 @@ class Repository implements IRepository {
 
     private static final String CARD_COMMAND = "command";
 
-    private static final String CARD_CARD_INDEX = "cardIndex";
+    private static final String CARD_INDEX = "cardIndex";
 
     private static final String CARD_GAMEID = "gameID";
 
-    private static final String CARD_LAYERID = "playerID";
+    private static final String CARD_PLAYERID = "playerID";
 
     private Connector connector;
 
@@ -362,9 +362,9 @@ class Repository implements IRepository {
                 resultSet.moveToInsertRow();
 
                 resultSet.updateInt(CARD_COMMAND, commandIndex);
-                resultSet.updateInt(CARD_CARD_INDEX, cardIndex);
+                resultSet.updateInt(CARD_INDEX, cardIndex);
                 resultSet.updateInt(CARD_GAMEID, player.board.getGameId());
-                resultSet.updateInt(CARD_LAYERID, i);
+                resultSet.updateInt(CARD_PLAYERID, i);
 
                 resultSet.insertRow();
 
@@ -384,8 +384,8 @@ class Repository implements IRepository {
         Command[] commands = Command.values();
 
         while (resultSet.next()) {
-            int playerID = resultSet.getInt(CARD_LAYERID);
-            int cardIndex = resultSet.getInt(CARD_CARD_INDEX);
+            int playerID = resultSet.getInt(CARD_PLAYERID);
+            int cardIndex = resultSet.getInt(CARD_INDEX);
             Command command = commands[resultSet.getInt(CARD_COMMAND)];
 
             Player player = game.getPlayer(playerID);
@@ -411,8 +411,8 @@ class Repository implements IRepository {
         }
 
         while (resultSet.next()) {
-            int playerID = resultSet.getInt(CARD_LAYERID);
-            int cardIndex = resultSet.getInt(CARD_CARD_INDEX);
+            int playerID = resultSet.getInt(CARD_PLAYERID);
+            int cardIndex = resultSet.getInt(CARD_INDEX);
             Command command = lists.get(playerID).get(cardIndex).command;
 
             resultSet.updateInt(CARD_COMMAND, commands.indexOf(command));
