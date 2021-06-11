@@ -73,17 +73,22 @@ public class GameController {
         Heading heading = player.getHeading();
 
         if (player.getSpace() != rebootSpace) {
+
+            // Go over every heading and try to push any potential player already on the reboot space in that direction
             for (int i = 0, n = Heading.values().length; i < n; i++) {
                 try {
                     moveToSpace(player, rebootSpace, heading);
                     break;
 
                 } catch (MoveException e) {
+
+                    // If we haven't gone over every possible heading, try the next one
                     if (i != n - 1) {
                         heading = heading.next();
                         continue;
                     }
 
+                    // Otherwise, it is impossible to move the player to the reboot space without creating an infinite loop
                     e.printStackTrace();
                 }
             }
@@ -93,6 +98,7 @@ public class GameController {
         player.getDiscardPile().add(new CommandCard(Command.values()[8]));
         player.getDiscardPile().add(new CommandCard(Command.values()[8]));
 
+        // Remove all cards from the player's registers, and give them new cards from their deck
         givePlayerNewCards(player);
     }
 
@@ -322,16 +328,18 @@ public class GameController {
 
         if (player.board == board) {
 
-            // Calculate the target space based on the players heading
+            // Calculate the target space based on the input heading
             Space target = board.getNeighbour(player.getSpace(), heading);
 
-            if (target == null && !onOrOverEdge(player.getSpace(), heading))
+            // If the target is null, and the player is not going
+            // over the edge, there is a wall in the way; don't move
+            if (target == null && !goingOverEdge(player.getSpace(), heading))
                 return;
 
-            // moveToSpace pushes any other players already on the target space
-            // in the direction that the current player is moving
-            // If the move is impossible, ie. any pushed player
-            // will hit a wall, ImpossibleMoveException is thrown
+            // moveToSpace pushes any other players already on the
+            // target space in the direction that the current player
+            // is moving. If the move is impossible, ie. any pushed
+            // player will hit a wall, ImpossibleMoveException is thrown
             try {
                 moveToSpace(player, target, heading);
 
@@ -340,9 +348,8 @@ public class GameController {
                     fatalMoveExceptionHandler((FatalMoveException) e);
                 }
                 // we don't do anything here for now;
-                // we just catch the exception so that
-                // we do no pass it on to the caller
-                // (which would be very bad style).
+                // we just catch the exception so that we do no pass
+                // it on to the caller (which would be very bad style).
             }
 
         }
@@ -369,11 +376,13 @@ public class GameController {
                 moveToSpace(other, target, heading);
 
             } else { // If the target space is null, it is impossible to move to; throw exception
-                if (onOrOverEdge(space, heading)) {
+
+                // If the player is going over the edge, the move is fatal
+                if (goingOverEdge(space, heading))
                     throw new FatalMoveException(player, other, space, heading);
-                } else {
+
+                else // Otherwise they are just blocked and the move is impossible
                     throw new ImpossibleMoveException(player, space, heading);
-                }
             }
         }
 
@@ -381,10 +390,7 @@ public class GameController {
         player.setSpace(space);
     }
 
-    private boolean onOrOverEdge(Space space, Heading heading) {
-        if (space == null)
-            return true;
-
+    private boolean goingOverEdge(Space space, Heading heading) {
         return ((space.x == 0 && heading == Heading.WEST) ||
                 (space.x == board.width - 1 && heading == Heading.EAST) ||
                 (space.y == 0 && heading == Heading.NORTH) ||
@@ -434,27 +440,32 @@ public class GameController {
     }
 
     public void fatalMoveExceptionHandler(FatalMoveException e) {
+
+        // If e.other is not null, the player is pushing another player over the edge
         if (e.other != null) {
+
+            // Move the other player to the reboot space
             moveToRebootSpace(e.other);
 
+            // Try to move the player to the space
             try {
                 moveToSpace(e.player, e.space, e.heading);
 
             } catch (MoveException eNew) {
+                // The most likely scenario here is that e.other is pushed
+                // by e.player from reboot space to edge. When this happens,
+                // e.other is of course sent to the reboot space, thereby
+                // returning to its original position. When e.player then tries
+                // to move to the reboot space, e.other is in the way.
+                // In this case, it therefore makes sense to ignore the move,
+                // since the outcome is preferable to what could otherwise happen,
+                // which is an infinite loop.
                 if (e.other.getSpace() != board.getRebootSpace()) {
                     e.printStackTrace();
                 }
-                // The most likely scenario here is that e.other is pushed
-                // by e.player from reboot space to edge. When this happens,
-                // e.other is of course returned to the reboot space, thereby
-                // returning to its original position. When e.player then tries
-                // to move to the reboot space, e.other is in the way.
-                // In this case, it therefore makes sense to ignore the exception,
-                // since the outcome is better than what would otherwise happen,
-                // which is an infinite loop
             }
 
-        } else {
+        } else { // Otherwise, the player move over the edge; move to reboot space
             moveToRebootSpace(e.player);
         }
     }
