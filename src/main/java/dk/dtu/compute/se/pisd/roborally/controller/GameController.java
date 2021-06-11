@@ -27,8 +27,6 @@ import dk.dtu.compute.se.pisd.roborally.exception.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 /**
  * ...
  *
@@ -498,7 +496,7 @@ public class GameController {
 
             //Give them new cards on their hands
             for (int j = 0; j < Player.NO_CARDS; j++) {
-                // If their deck is empty, shuffle their discardpile, and use that as deck
+                // If their deck is empty, shuffle their discard pile, and use that as deck
                 if (player.getDeck().size() == 0) {
                     player.shuffleDeck();
                 }
@@ -511,15 +509,5 @@ public class GameController {
                 field.setVisible(true);
             }
         }
-    }
-
-
-    /**
-     * A method called when no corresponding controller operation is implemented yet. This
-     * should eventually be removed.
-     */
-    public void notImplemented() {
-        // XXX just for now to indicate that the actual method is not yet implemented
-        assert false;
     }
 }
