@@ -10,32 +10,22 @@ import javafx.scene.text.Font;
 public class PitFallSpaceView {
 
     public static void drawPitFallSpace(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
+        Canvas canvas = new Canvas(SpaceView.spaceSize, SpaceView.spaceSize);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
+        graphicsContext.setFill(Color.LIGHTGREY);
+        double[] xList = new double[]{0.200, 0.800, 0.800, 0.200};
+        double[] yList = new double[]{0.200, 0.200, 0.800, 0.800};
+        xList = spaceView.scaleDoublesToFit(xList);
+        yList = spaceView.scaleDoublesToFit(yList);
+        graphicsContext.fillPolygon(xList, yList, xList.length);
 
-        graphicsContext.setStroke(Color.LIME);
-        graphicsContext.setLineWidth(3.);
-        double[] xList = new double[]{42.5, 32.5};
-        double[] yList = new double[]{62.5, 62.5};
-
-        graphicsContext.strokePolygon(xList, yList, xList.length);
-
-        PitfallSpace pitFallSpace = (PitfallSpace) action;
-
-        // Increase font size from standard.
-        Font font = new Font(10);
-        graphicsContext.setFont(font);
-
-        // Draw larger shadow of the number.
-        graphicsContext.setStroke(Color.YELLOW);
-        graphicsContext.setLineWidth(4.);
-        graphicsContext.strokeText("PitFall", 8, 43);
-
-        // Draw the number over the shadow.
-        graphicsContext.setStroke(Color.ORANGE);
-        graphicsContext.setLineWidth(2.);
-        graphicsContext.strokeText("PitFall", 8, 43);
+        graphicsContext.setFill(Color.DARKGREY);
+        xList = new double[]{0.250, 0.750, 0.750, 0.250};
+        yList = new double[]{0.250, 0.250, 0.750, 0.750};
+        xList = spaceView.scaleDoublesToFit(xList);
+        yList = spaceView.scaleDoublesToFit(yList);
+        graphicsContext.fillPolygon(xList, yList, xList.length);
 
         spaceView.getChildren().add(canvas);
     }
