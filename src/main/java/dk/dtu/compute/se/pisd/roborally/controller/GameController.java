@@ -390,12 +390,20 @@ public class GameController {
         player.setSpace(space);
     }
 
+    /**
+     * Method for checking whether a space, when moving from in a specified direction
+     * will lead beyond the edge of the board.
+     *
+     * @param space A space from which a player is moving
+     * @param heading The heading the player is moving
+     * @return
+     */
     private boolean goingOverEdge(Space space, Heading heading) {
         return ((space.x == 0 && heading == Heading.WEST) ||
                 (space.x == board.width - 1 && heading == Heading.EAST) ||
                 (space.y == 0 && heading == Heading.NORTH) ||
                 (space.y == board.height - 1 && heading == Heading.SOUTH)) &&
-                !space.isBlocked(heading);
+               !space.isBlocked(heading);
     }
 
     public void fastForward(@NotNull Player player, int count) {
@@ -439,7 +447,14 @@ public class GameController {
         }
     }
 
-    public void fatalMoveExceptionHandler(FatalMoveException e) {
+    /**
+     * Method for handling when a FatalMoveException is thrown.
+     * The method deals with different scenarios, for example a player
+     * pushing another over the edge.
+     *
+     * @param e The FatalMoveException that needs to be handled
+     */
+    public void fatalMoveExceptionHandler(@NotNull FatalMoveException e) {
 
         // If e.other is not null, the player is pushing another player over the edge
         if (e.other != null) {
