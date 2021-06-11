@@ -464,8 +464,7 @@ public class GameController {
             player.shuffleDeck();
         }
         // Take the top card in players deck, and activate it
-        player.getDiscardPile().add(player.getDeck().get(0));
-        player.getDeck().remove(0);
+        player.getDiscardPile().add(player.getDeck().remove(0));
         executeCommand(player, player.getDiscardPile().get(player.getDiscardPile().size() - 1).command);
     }
 
@@ -504,8 +503,7 @@ public class GameController {
                 CommandCardField field = player.getCardField(j);
 
                 // Give player a new card
-                field.setCard(player.getDeck().get(0));
-                player.getDeck().remove(0);
+                field.setCard(player.getDeck().remove(0));
                 field.setVisible(true);
             }
         }
