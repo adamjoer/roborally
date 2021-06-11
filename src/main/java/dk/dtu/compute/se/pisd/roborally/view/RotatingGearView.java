@@ -1,21 +1,15 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
-import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.RotatingGear;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-
-import java.util.Arrays;
 
 public class RotatingGearView {
 
     public static void drawRotatingGear(SpaceView spaceView, FieldAction action) {
-        int spaceSize = SpaceView.spaceSize;
-
-        Canvas canvas = new Canvas(spaceSize, spaceSize);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
         graphicsContext.setStroke(Color.LIME);

@@ -1,16 +1,14 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.controller.PitfallSpace;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class PitFallSpaceView {
 
     public static void drawPitFallSpace(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.spaceSize, SpaceView.spaceSize);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
         graphicsContext.setFill(Color.LIGHTGREY);

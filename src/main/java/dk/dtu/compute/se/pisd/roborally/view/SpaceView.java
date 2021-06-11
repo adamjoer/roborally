@@ -39,23 +39,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    public static int spaceSize;
+    private int spaceSize;
 
     public final Space space;
 
 
     public SpaceView(@NotNull Space space, int spaceSize) {
         this.space = space;
-        SpaceView.spaceSize = spaceSize;
+        this.spaceSize = spaceSize;
 
         // XXX the following styling should better be done with styles
-        this.setPrefWidth(SpaceView.spaceSize);
-        this.setMinWidth(SpaceView.spaceSize);
-        this.setMaxWidth(SpaceView.spaceSize);
+        this.setPrefWidth(this.spaceSize);
+        this.setMinWidth(this.spaceSize);
+        this.setMaxWidth(this.spaceSize);
 
-        this.setPrefHeight(SpaceView.spaceSize);
-        this.setMinHeight(SpaceView.spaceSize);
-        this.setMaxHeight(SpaceView.spaceSize);
+        this.setPrefHeight(this.spaceSize);
+        this.setMinHeight(this.spaceSize);
+        this.setMaxHeight(this.spaceSize);
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
@@ -90,13 +90,13 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void drawWall(Heading heading) {
         Pane pane = new Pane();
-        Rectangle rectangle = new Rectangle(0.0, 0.0, SpaceView.spaceSize, SpaceView.spaceSize);
+        Rectangle rectangle = new Rectangle(0.0, 0.0, spaceSize, spaceSize);
         rectangle.setFill(Color.TRANSPARENT);
         pane.getChildren().add(rectangle);
 
         double upLeft = 2;
-        double right = SpaceView.spaceSize - 2;
-        double down = SpaceView.spaceSize - 2;
+        double right = spaceSize - 2;
+        double down = spaceSize - 2;
         Line line = null;
 
         switch (heading) {
@@ -123,7 +123,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     public double[] scaleDoublesToFit(double[] doubles) {
         double[] scaledDoubles = new double[doubles.length];
         for (int i = 0; i < doubles.length; i++) {
-            scaledDoubles[i] = doubles[i] * SpaceView.spaceSize;
+            scaledDoubles[i] = doubles[i] * spaceSize;
         }
         return scaledDoubles;
     }
@@ -150,5 +150,9 @@ public class SpaceView extends StackPane implements ViewObserver {
                 drawWall(heading);
             updatePlayer();
         }
+    }
+
+    public int getSpaceSize() {
+        return this.spaceSize;
     }
 }

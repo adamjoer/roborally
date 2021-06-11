@@ -1,19 +1,16 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import javax.swing.text.IconView;
-
 public class CheckPointView {
 
     public static void drawCheckPoint(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.spaceSize, SpaceView.spaceSize);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
 

@@ -5,12 +5,11 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
 
 public class ConveyorBeltView {
 
     public static void drawConveyorBelt(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.spaceSize, SpaceView.spaceSize);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         ConveyorBelt conveyorBelt = (ConveyorBelt) action;
 

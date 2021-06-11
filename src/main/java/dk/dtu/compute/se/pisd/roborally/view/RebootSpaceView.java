@@ -1,17 +1,14 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.controller.RebootSpace;
-import dk.dtu.compute.se.pisd.roborally.controller.RotatingGear;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class RebootSpaceView {
 
     public static void drawRebootSpace(SpaceView spaceView, FieldAction action) {
-        Canvas canvas = new Canvas(SpaceView.spaceSize, SpaceView.spaceSize);
+        Canvas canvas = new Canvas(spaceView.getSpaceSize(), spaceView.getSpaceSize());
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
 
