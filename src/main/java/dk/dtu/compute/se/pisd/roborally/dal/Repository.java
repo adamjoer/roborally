@@ -63,13 +63,13 @@ class Repository implements IRepository {
 
     private static final String PLAYER_HEADING = "heading";
 
-    private static final String CARD_FIELD_COMMAND = "command";
+    private static final String CARD_COMMAND = "command";
 
-    private static final String CARD_FIELD_CARD_INDEX = "cardIndex";
+    private static final String CARD_CARD_INDEX = "cardIndex";
 
-    private static final String CARD_FIELD_GAMEID = "gameID";
+    private static final String CARD_GAMEID = "gameID";
 
-    private static final String CARD_FIELD_PLAYERID = "playerID";
+    private static final String CARD_LAYERID = "playerID";
 
     private Connector connector;
 
@@ -344,7 +344,7 @@ class Repository implements IRepository {
     }
 
     private void createCardsInDB(Board game) throws SQLException {
-        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        PreparedStatement preparedStatement = getSelectCardsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -361,10 +361,10 @@ class Repository implements IRepository {
 
                 resultSet.moveToInsertRow();
 
-                resultSet.updateInt(CARD_FIELD_COMMAND, commandIndex);
-                resultSet.updateInt(CARD_FIELD_CARD_INDEX, cardIndex);
-                resultSet.updateInt(CARD_FIELD_GAMEID, player.board.getGameId());
-                resultSet.updateInt(CARD_FIELD_PLAYERID, i);
+                resultSet.updateInt(CARD_COMMAND, commandIndex);
+                resultSet.updateInt(CARD_CARD_INDEX, cardIndex);
+                resultSet.updateInt(CARD_GAMEID, player.board.getGameId());
+                resultSet.updateInt(CARD_LAYERID, i);
 
                 resultSet.insertRow();
 
@@ -376,7 +376,7 @@ class Repository implements IRepository {
     }
 
     private void loadCardsFromDB(Board game) throws SQLException {
-        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        PreparedStatement preparedStatement = getSelectCardsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -384,26 +384,20 @@ class Repository implements IRepository {
         Command[] commands = Command.values();
 
         while (resultSet.next()) {
-            int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
-            int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
-            Command command = commands[resultSet.getInt(CARD_FIELD_COMMAND)];
+            int playerID = resultSet.getInt(CARD_LAYERID);
+            int cardIndex = resultSet.getInt(CARD_CARD_INDEX);
+            Command command = commands[resultSet.getInt(CARD_COMMAND)];
 
             Player player = game.getPlayer(playerID);
 
-            try {
-                player.getDeck().add(cardIndex, new CommandCard(command));
-
-            } catch (IndexOutOfBoundsException e) {
-                // If database entries are not in order, add last
-                player.getDeck().add(player.getDeck().size(), new CommandCard(command));
-            }
+            player.getDeck().add(cardIndex, new CommandCard(command));
         }
 
         resultSet.close();
     }
 
     private void updateCardsInDB(Board game) throws SQLException {
-        PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
+        PreparedStatement preparedStatement = getSelectCardsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -417,11 +411,11 @@ class Repository implements IRepository {
         }
 
         while (resultSet.next()) {
-            int playerID = resultSet.getInt(CARD_FIELD_PLAYERID);
-            int cardIndex = resultSet.getInt(CARD_FIELD_CARD_INDEX);
+            int playerID = resultSet.getInt(CARD_LAYERID);
+            int cardIndex = resultSet.getInt(CARD_CARD_INDEX);
             Command command = lists.get(playerID).get(cardIndex).command;
 
-            resultSet.updateInt(CARD_FIELD_COMMAND, commands.indexOf(command));
+            resultSet.updateInt(CARD_COMMAND, commands.indexOf(command));
 
             resultSet.updateRow();
         }
@@ -511,23 +505,23 @@ class Repository implements IRepository {
         return select_players_asc_stmt;
     }
 
-    private static final String SQL_SELECT_CARD_FIELDS = "SELECT * FROM Card WHERE gameID = ?";
+    private static final String SQL_SELECT_CARDS = "SELECT * FROM Card WHERE gameID = ? ORDER BY playerID ASC, cardIndex ASC";
 
-    private PreparedStatement select_card_fields_stmt = null;
+    private PreparedStatement select_cards_stmt = null;
 
-    private PreparedStatement getSelectCardFieldsStatementU() {
-        if (select_card_fields_stmt == null) {
+    private PreparedStatement getSelectCardsStatementU() {
+        if (select_cards_stmt == null) {
             Connection connection = connector.getConnection();
             try {
-                select_card_fields_stmt = connection.prepareStatement(
-                        SQL_SELECT_CARD_FIELDS,
+                select_cards_stmt = connection.prepareStatement(
+                        SQL_SELECT_CARDS,
                         ResultSet.TYPE_FORWARD_ONLY,
                         ResultSet.CONCUR_UPDATABLE);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return select_card_fields_stmt;
+        return select_cards_stmt;
     }
 
     private static final String SQL_SELECT_GAMES =
