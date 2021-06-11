@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Player (
   FOREIGN KEY (gameID) REFERENCES Game(gameID)
 );;
 
-CREATE TABLE IF NOT EXISTS CardField (
+CREATE TABLE IF NOT EXISTS Card (
   command int NOT NULL,
   cardIndex int NOT NULL,
   gameID int NOT NULL,

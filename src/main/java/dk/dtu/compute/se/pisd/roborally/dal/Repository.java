@@ -115,7 +115,7 @@ class Repository implements IRepository {
                 // statement.close();
 
                 createPlayersInDB(game);
-                createCardFieldsInDB(game);
+                createCardsInDB(game);
 
                 // since current player is a foreign key, it can oly be
                 // inserted after the players are created, since MySQL does
@@ -176,7 +176,7 @@ class Repository implements IRepository {
             rs.close();
 
             updatePlayersInDB(game);
-            updateCardFieldsInDB(game);
+            updateCardsInDB(game);
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -236,7 +236,7 @@ class Repository implements IRepository {
                 return null;
             }
 
-            loadCardFieldsFromDB(game);
+            loadCardsFromDB(game);
             return game;
 
         } catch (SQLException e) {
@@ -343,7 +343,7 @@ class Repository implements IRepository {
         // TODO error handling/consistency check: check whether all players were updated
     }
 
-    private void createCardFieldsInDB(Board game) throws SQLException {
+    private void createCardsInDB(Board game) throws SQLException {
         PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
@@ -375,7 +375,7 @@ class Repository implements IRepository {
         resultSet.close();
     }
 
-    private void loadCardFieldsFromDB(Board game) throws SQLException {
+    private void loadCardsFromDB(Board game) throws SQLException {
         PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
@@ -395,7 +395,7 @@ class Repository implements IRepository {
         resultSet.close();
     }
 
-    private void updateCardFieldsInDB(Board game) throws SQLException {
+    private void updateCardsInDB(Board game) throws SQLException {
         PreparedStatement preparedStatement = getSelectCardFieldsStatementU();
         preparedStatement.setInt(1, game.getGameId());
 
@@ -504,7 +504,7 @@ class Repository implements IRepository {
         return select_players_asc_stmt;
     }
 
-    private static final String SQL_SELECT_CARD_FIELDS = "SELECT * FROM CardField WHERE gameID = ?";
+    private static final String SQL_SELECT_CARD_FIELDS = "SELECT * FROM Card WHERE gameID = ?";
 
     private PreparedStatement select_card_fields_stmt = null;
 
