@@ -271,8 +271,6 @@ public class GameController {
             }
 
             if (player.getCurrentCheckPoint() == checkPoints) {
-                System.out.println(player.getName() + " won the game");
-
                 board.setPlayerWhoWon(player);
 
                 board.setPhase(Phase.GAME_ENDED);

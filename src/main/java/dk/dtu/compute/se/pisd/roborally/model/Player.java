@@ -137,10 +137,8 @@ public class Player extends Subject {
 
     public void checkPointHandler(int checkPoint) {
         if (currentCheckPoint == checkPoint - 1) {
-            System.out.printf("%s reached checkpoint number %d\n", name, checkPoint);
             currentCheckPoint++;
         }
-
     }
 
     public boolean isUsingAllRegisters() {

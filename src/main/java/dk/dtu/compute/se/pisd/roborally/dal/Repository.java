@@ -149,8 +149,6 @@ class Repository implements IRepository {
                     e1.printStackTrace();
                 }
             }
-        } else {
-            System.out.println("Game ID already exists, updating database entry instead.");
         }
         return false;
     }
