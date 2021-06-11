@@ -37,8 +37,8 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
-    final public static int NO_CARDS = 8;
-    final public static int NO_PROGRAM_CARDS = 20;
+    final public static int NO_CARDS_ON_HAND = 8;
+    final public static int NO_CARDS_IN_DECK = 20;
 
     final public Board board;
 
@@ -51,8 +51,8 @@ public class Player extends Subject {
     private final CommandCardField[] program;
     private final CommandCardField[] cards;
 
-    private final ArrayList<CommandCard> deck = new ArrayList<>(NO_PROGRAM_CARDS);
-    private final ArrayList<CommandCard> discardPile = new ArrayList<>(NO_PROGRAM_CARDS);
+    private final ArrayList<CommandCard> deck = new ArrayList<>(NO_CARDS_IN_DECK);
+    private final ArrayList<CommandCard> discardPile = new ArrayList<>(NO_CARDS_IN_DECK);
 
     // The last checkpoint which the player has landed on
     private int currentCheckPoint = 0;
@@ -69,7 +69,7 @@ public class Player extends Subject {
             program[i] = new CommandCardField(this);
         }
 
-        cards = new CommandCardField[NO_CARDS];
+        cards = new CommandCardField[NO_CARDS_ON_HAND];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new CommandCardField(this);
         }
@@ -183,7 +183,7 @@ public class Player extends Subject {
                 completeDeck.add(card);
         }
 
-        for (int i = 0; i < Player.NO_CARDS; i++) {
+        for (int i = 0; i < Player.NO_CARDS_ON_HAND; i++) {
             CommandCard card = cards[i].getCard();
             if (card != null)
                 completeDeck.add(card);

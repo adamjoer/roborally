@@ -107,7 +107,7 @@ public class GameController {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
 
-                for (int j = 0; j < Player.NO_PROGRAM_CARDS; j++) {
+                for (int j = 0; j < Player.NO_CARDS_IN_DECK; j++) {
                     player.getDeck().add(generateRandomCommandCard());
                 }
             }
@@ -485,7 +485,7 @@ public class GameController {
                 field.setVisible(true);
             }
 
-            for (int j = 0; j < Player.NO_CARDS; j++) {
+            for (int j = 0; j < Player.NO_CARDS_ON_HAND; j++) {
                 CommandCardField field = player.getCardField(j);
 
                 if (field.getCard() != null) {
@@ -494,7 +494,7 @@ public class GameController {
             }
 
             //Give them new cards on their hands
-            for (int j = 0; j < Player.NO_CARDS; j++) {
+            for (int j = 0; j < Player.NO_CARDS_ON_HAND; j++) {
                 // If their deck is empty, shuffle their discard pile, and use that as deck
                 if (player.getDeck().size() == 0) {
                     player.shuffleDeck();
