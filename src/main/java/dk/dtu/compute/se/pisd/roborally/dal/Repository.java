@@ -211,12 +211,6 @@ class Repository implements IRepository {
             ResultSet rs = ps.executeQuery();
             int playerNo = -1;
             if (rs.next()) {
-                // TODO the width and height could eventually come from the database
-                // int width = AppController.BOARD_WIDTH;
-                // int height = AppController.BOARD_HEIGHT;
-                // game = new Board(width,height);
-                // TODO and we should also store the used game board in the database
-                //      for now, we use the default game board
 
                 game = LoadBoard.loadBoard(rs.getString(BOARD_NAME));
                 if (game == null) {
@@ -243,8 +237,8 @@ class Repository implements IRepository {
             }
 
             loadCardFieldsFromDB(game);
-
             return game;
+
         } catch (SQLException e) {
             // TODO error handling
             e.printStackTrace();
@@ -319,7 +313,6 @@ class Repository implements IRepository {
                 int heading = rs.getInt(PLAYER_HEADING);
                 player.setHeading(Heading.values()[heading]);
 
-                // TODO  should also load players program and hand here
             } else {
                 // TODO error handling
                 System.err.println("Game in DB does not have a player with id " + i + "!");
@@ -398,6 +391,8 @@ class Repository implements IRepository {
             Player player = game.getPlayer(playerID);
             player.getDeck().add(cardIndex, new CommandCard(command));
         }
+
+        resultSet.close();
     }
 
     private void updateCardFieldsInDB(Board game) throws SQLException {
