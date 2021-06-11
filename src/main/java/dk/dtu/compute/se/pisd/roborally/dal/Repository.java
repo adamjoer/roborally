@@ -389,7 +389,14 @@ class Repository implements IRepository {
             Command command = commands[resultSet.getInt(CARD_FIELD_COMMAND)];
 
             Player player = game.getPlayer(playerID);
-            player.getDeck().add(cardIndex, new CommandCard(command));
+
+            try {
+                player.getDeck().add(cardIndex, new CommandCard(command));
+
+            } catch (IndexOutOfBoundsException e) {
+                // If database entries are not in order, add last
+                player.getDeck().add(player.getDeck().size(), new CommandCard(command));
+            }
         }
 
         resultSet.close();
