@@ -443,8 +443,19 @@ public class GameController {
 
             try {
                 moveToSpace(e.player, e.space, e.heading);
-            } catch (MoveException eOther) {
-                eOther.printStackTrace();
+
+            } catch (MoveException eNew) {
+                if (e.other.getSpace() != board.getRebootSpace()) {
+                    e.printStackTrace();
+                }
+                // The most likely scenario here is that e.other is pushed
+                // by e.player from reboot space to edge. When this happens,
+                // e.other is of course returned to the reboot space, thereby
+                // returning to its original position. When e.player then tries
+                // to move to the reboot space, e.other is in the way.
+                // In this case, it therefore makes sense to ignore the exception,
+                // since the outcome is better than what would otherwise happen,
+                // which is an infinite loop
             }
 
         } else {
