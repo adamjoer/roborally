@@ -398,10 +398,10 @@ public class GameController {
 
     public void fastForward(@NotNull Player player, int count) {
 
-        // TODO: Maybe throw an exception if count is less than or equal to zero
-
         for (int i = 0; i < count; i++) {
-            moveStep(player, player.getHeading());
+            // Check if the player's program cards are null, which indicate that it has been rebooted
+            if (player.getProgramField(0).getCard() != null)
+                moveStep(player, player.getHeading());
         }
     }
 
