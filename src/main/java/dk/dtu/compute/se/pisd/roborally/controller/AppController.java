@@ -57,7 +57,7 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
 
-    final private List<String> BOARD_OPTIONS = Arrays.asList("RiskyCrossing", "HighOctane","defaultboard");
+    final private List<String> BOARD_OPTIONS = Arrays.asList("RiskyCrossing", "HighOctane");
 
     final private RoboRally roboRally;
 
@@ -140,14 +140,12 @@ public class AppController implements Observer {
 
             gameController = new GameController(board);
 
-            // TODO: Restarts the game in the Programming Phase.........
-            if(board.getPhase() == Phase.GAME_ENDED){
-                // DO NOTHING
-            } else{
+            // If the game hasn't ended, start programming phase
+            if (board.getPhase() != Phase.GAME_ENDED)
                 gameController.startProgrammingPhase();
-            }
 
             roboRally.createBoardView(gameController);
+
         } else {
             newGame();
         }
